@@ -19,6 +19,7 @@ namespace LS.CharacterController.Core
         private GroundDetector _groundDetector;
         private CoreSledPhysics _coreSledPhysics;
         
+        private float _steerInput;
         private bool _launchRequested;
 
 
@@ -37,8 +38,21 @@ namespace LS.CharacterController.Core
             if (!_coreSledPhysics.HasLaunched)
             {
                 HandleLaunch();
+                return;
             }
+            
+            GroundInfo ground = _groundDetector.DetectGround();
+            ForceResult forces = _coreSledPhysics.CalculateForces(_rigidbody.linearVelocity, ground, _steerInput);
+ 
+            _rigidbody.AddForce(forces.TotalForce, ForceMode.Acceleration);
+            
         }
+        
+        public void SetSteerInput(float horizontal)
+        {
+            _steerInput = Mathf.Clamp(horizontal, -1f, 1f);
+        }
+
         
         private void HandleLaunch()
         {

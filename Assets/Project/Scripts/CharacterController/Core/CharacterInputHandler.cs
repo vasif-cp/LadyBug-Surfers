@@ -6,7 +6,6 @@ namespace LS.CharacterController.Core
     {
         private CharacterMovementController _characterMovementController;
         
-        
         private void Awake()
         {
             _characterMovementController = GetComponent<CharacterMovementController>();
@@ -29,13 +28,13 @@ namespace LS.CharacterController.Core
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 _characterMovementController.RequestLaunch();
-                return;
             }
         }
         
         private void HandleSteeringInput()
         {
-            
+            float steerInput = Input.GetAxis("Horizontal");
+            _characterMovementController.SetSteerInput(steerInput);
         }
 
     }

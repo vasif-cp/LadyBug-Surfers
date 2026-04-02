@@ -41,6 +41,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4742278792192202536}
+  - component: {fileID: 2219525166469016588}
+  - component: {fileID: 2239713116511039990}
+  - component: {fileID: 8099232742502358984}
+  - component: {fileID: 4452684558978988173}
   m_Layer: 0
   m_Name: Player Character
   m_TagString: Untagged
@@ -64,6 +68,74 @@ Transform:
   - {fileID: 1806473045471551732}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &2219525166469016588
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2415346231237855266}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &2239713116511039990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2415346231237855266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f75f224eac214d5f8b93e59fbc533f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LS.CharacterController.Physics.GroundDetector
+  _physicsSettings: {fileID: 11400000, guid: a56742727212c4560bd3ac8e4e6504f3, type: 2}
+--- !u!114 &8099232742502358984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2415346231237855266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91aec91ca12fc4e1da7602e3bc282651, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LS.CharacterController.Physics.Controller.CharacterMovementController
+  _physicsSettings: {fileID: 11400000, guid: a56742727212c4560bd3ac8e4e6504f3, type: 2}
+  _visualModelTransform: {fileID: 4130808072709530128}
+--- !u!114 &4452684558978988173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2415346231237855266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aedb16dce7d164468b533fb273bf858f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LS.CharacterController.Core.CharacterInputHandler
+  _touchSensitivity: 0.01
+  _swipeLaunchThreshold: 100
 --- !u!1 &5767031167431292133
 GameObject:
   m_ObjectHideFlags: 0

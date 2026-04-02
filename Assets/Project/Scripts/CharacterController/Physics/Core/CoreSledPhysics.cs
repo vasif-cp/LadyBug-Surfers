@@ -42,8 +42,9 @@ namespace LS.CharacterController.Physics.Core
             Vector3 slopeRight = Vector3.Cross(ground.SurfaceNormal, slopeForward).normalized;
 
             float steerForce = _physicsSettings.SteerForce * steerInput;
+            float speedFactor = Mathf.Clamp01(_currentVelocity.magnitude / _physicsSettings.SteerSpeedReference);
 
-            return slopeRight * steerForce;
+            return slopeRight * steerForce * speedFactor;
         }
         
         public Vector3 CalculateLaunchImpulse(Vector3 forward)

@@ -597,6 +597,38 @@ Transform:
   - {fileID: 1408858646}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &743684556
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 743684557}
+  m_Layer: 0
+  m_Name: '[Items]'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &743684557
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 743684556}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1005837787}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -684,6 +716,54 @@ Transform:
   - {fileID: 988552886}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1005837786
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1005837787}
+  - component: {fileID: 1005837788}
+  m_Layer: 0
+  m_Name: '[Slingshot]'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1005837787
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005837786}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 743684557}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1005837788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005837786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14b26062811a4421687e4c7d303c7095, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LS.Items.Slingshot.SlingshotController
+  _physicsSettings: {fileID: 11400000, guid: a56742727212c4560bd3ac8e4e6504f3, type: 2}
+  _characterMovementController: {fileID: 8868175438643931894}
+  _characterTransform: {fileID: 1408858646}
+  _mainCamera: {fileID: 330585545}
 --- !u!4 &1408858646 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4742278792192202536, guid: 72b66afc47032401691a7fb39e59504f, type: 3}
@@ -865,10 +945,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 742472923}
     m_Modifications:
-    - target: {fileID: 2219525166469016588, guid: 72b66afc47032401691a7fb39e59504f, type: 3}
-      propertyPath: m_Constraints
-      value: 112
-      objectReference: {fileID: 0}
     - target: {fileID: 2415346231237855266, guid: 72b66afc47032401691a7fb39e59504f, type: 3}
       propertyPath: m_Name
       value: Player Character
@@ -918,6 +994,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72b66afc47032401691a7fb39e59504f, type: 3}
+--- !u!114 &8868175438643931894 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8099232742502358984, guid: 72b66afc47032401691a7fb39e59504f, type: 3}
+  m_PrefabInstance: {fileID: 8868175438643931892}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91aec91ca12fc4e1da7602e3bc282651, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LS.CharacterController.Physics.Controller.CharacterMovementController
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -926,3 +1013,4 @@ SceneRoots:
   - {fileID: 1001553333}
   - {fileID: 1670974330}
   - {fileID: 742472923}
+  - {fileID: 743684557}

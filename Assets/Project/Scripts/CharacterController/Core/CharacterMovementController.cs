@@ -68,5 +68,13 @@ namespace LS.CharacterController.Core
             if (_coreSledPhysics.HasLaunched) return;
             _launchRequested = true;
         }
+        
+        public void RequestLaunchWithImpulse(Vector3 impulse)
+        {
+            if (_coreSledPhysics.HasLaunched) return;
+    
+            _coreSledPhysics.MarkLaunched(); 
+            _rigidbody.AddForce(impulse, ForceMode.VelocityChange);
+        }
     }
 }

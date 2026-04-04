@@ -56,5 +56,7 @@ namespace LS.CharacterController.Physics.Core
             Vector3 launchDirection = (forward + Vector3.down).normalized;
             return launchDirection * power;
         }
+        
+        public void MarkLaunched() => _hasLaunched = true;
     }
 }

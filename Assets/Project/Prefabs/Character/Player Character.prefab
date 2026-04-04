@@ -42,6 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4742278792192202536}
   - component: {fileID: 2219525166469016588}
+  - component: {fileID: 4775462547683231446}
   - component: {fileID: 2239713116511039990}
   - component: {fileID: 8099232742502358984}
   - component: {fileID: 4452684558978988173}
@@ -93,8 +94,31 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!136 &4775462547683231446
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2415346231237855266}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2239713116511039990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,8 +158,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aedb16dce7d164468b533fb273bf858f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LS.CharacterController.Core.CharacterInputHandler
-  _touchSensitivity: 0.01
-  _swipeLaunchThreshold: 100
 --- !u!1 &5767031167431292133
 GameObject:
   m_ObjectHideFlags: 0
@@ -147,7 +169,6 @@ GameObject:
   - component: {fileID: 4130808072709530128}
   - component: {fileID: 8490631868948686064}
   - component: {fileID: 3934511594462408658}
-  - component: {fileID: 6040644468272364301}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -226,26 +247,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &6040644468272364301
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5767031167431292133}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}

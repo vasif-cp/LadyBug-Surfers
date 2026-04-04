@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 2239713116511039990}
   - component: {fileID: 8099232742502358984}
   - component: {fileID: 4452684558978988173}
+  - component: {fileID: 2992667111597632448}
   m_Layer: 0
   m_Name: Player Character
   m_TagString: Untagged
@@ -158,6 +159,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aedb16dce7d164468b533fb273bf858f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LS.CharacterController.Core.CharacterInputHandler
+--- !u!114 &2992667111597632448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2415346231237855266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 303aabe30ae84414e9738fafe4f4a2d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LS.CharacterController.Physics.CollectableDetector
+  _radius: 2
+  _collectibleLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &5767031167431292133
 GameObject:
   m_ObjectHideFlags: 0

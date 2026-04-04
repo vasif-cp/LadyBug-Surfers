@@ -8,5 +8,8 @@ namespace LS.Events
         public static Action OnPullStarted;
         public static Action<float> OnPullUpdated;
         public static Action OnPullEnded;
+        
+        
+        public static Action<int,int,int> OnCollectibleCollected;
     }
 }

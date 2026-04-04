@@ -1,5 +1,6 @@
 using System;
 using LS.Events;
+using LS.Save;
 using UnityEngine;
 
 namespace LS.Items.Collectibles
@@ -13,9 +14,12 @@ namespace LS.Items.Collectibles
         private void Awake()
         {
             _allCollectibles = GetComponentsInChildren<BaseCollectible>();
-            SyncAll();
-
             GameEvents.OnCollectibleCollected += HandleCollectable;
+        }
+
+        private void Start()
+        {
+            SyncAll();
         }
 
         private void OnDestroy()
@@ -25,9 +29,9 @@ namespace LS.Items.Collectibles
 
         private void HandleCollectable(int resourceID, int itemID, int value)
         {
-            if (IsCollected(resourceID, itemID)) return;
+            if (SaveSystem.IsCollectibleCollected(resourceID, itemID)) return;
  
-            SetCollected(resourceID, itemID);
+            SaveSystem.SaveCollectible(resourceID, itemID);
  
             for (int i = 0; i < _allCollectibles.Length; i++)
             {
@@ -43,19 +47,8 @@ namespace LS.Items.Collectibles
         {
             for (int i = 0; i < _allCollectibles.Length; i++)
             {
-                _allCollectibles[i].gameObject.SetActive(!IsCollected(_allCollectibles[i].ResourceID, _allCollectibles[i].UniqueId));
+                _allCollectibles[i].gameObject.SetActive(!SaveSystem.IsCollectibleCollected(_allCollectibles[i].ResourceID, _allCollectibles[i].UniqueId));
             }
-        }
-        
-        private void SetCollected(int resourceID, int itemID)
-        {
-            PlayerPrefs.SetInt($"{KeyPrefix}:{resourceID}:{itemID}", 1);
-            PlayerPrefs.Save();
-        }
-        
-        private bool IsCollected(int resourceID, int itemID)
-        {
-            return PlayerPrefs.GetInt($"{KeyPrefix}:{resourceID}:{itemID}", 0) == 1;
         }
     }
 }

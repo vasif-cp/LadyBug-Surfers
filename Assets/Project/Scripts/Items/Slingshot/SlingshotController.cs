@@ -1,6 +1,7 @@
 using System;
 using LS.CharacterController.Core;
 using LS.CharacterController.Physics.Data;
+using LS.Events;
 using UnityEngine;
 
 namespace LS.Items.Slingshot
@@ -91,6 +92,8 @@ namespace LS.Items.Slingshot
  
             _restPosition = _characterTransform.position;
             _engine.BeginPull(_restPosition);
+            
+            GameEvents.OnPullStarted?.Invoke();
         }
         
         private void UpdatePull(Vector2 screenPosition)
@@ -99,6 +102,10 @@ namespace LS.Items.Slingshot
             Vector3 targetPos = _engine.UpdatePull(worldPos, _characterTransform.forward);
  
             _currentCharacterPosition = targetPos;
+            
+            
+            float normalizedPullValue = Mathf.Clamp01(_engine.PullAmount / _physicsSettings.MaxPullDistance);
+            GameEvents.OnPullUpdated?.Invoke(normalizedPullValue);
         }
         
         private void ReleasePull()
@@ -115,6 +122,8 @@ namespace LS.Items.Slingshot
             _currentCharacterPosition = _restPosition;
  
             _characterMovementController.RequestLaunchWithImpulse(impulse);
+            
+            GameEvents.OnPullEnded?.Invoke();
         }
         
         private void CancelPull()

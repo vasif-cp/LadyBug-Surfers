@@ -14,9 +14,11 @@ namespace LS.Items.Slingshot
         private Vector3 _pullOffset;   
         private Vector3 _restPosition;
         
+        public float PullAmount => _pullAmount;
         public bool IsIdle => _state == State.Idle;
         public bool IsPulling => _state == State.Pulling;
         public bool IsLaunched => _state == State.Launched;
+        
         
         public SlingshotEngine(PhysicsSettings physicsSettings)
         {

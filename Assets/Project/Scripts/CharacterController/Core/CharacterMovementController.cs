@@ -76,5 +76,15 @@ namespace LS.CharacterController.Core
             _coreSledPhysics.MarkLaunched(); 
             _rigidbody.AddForce(impulse, ForceMode.VelocityChange);
         }
+        
+        public void ApplySlowdown(float slowdownFactor)
+        {
+            _rigidbody.linearVelocity *= slowdownFactor;
+        }
+
+        public void ApplyStop()
+        {
+            _rigidbody.linearVelocity = Vector3.zero;
+        }
     }
 }

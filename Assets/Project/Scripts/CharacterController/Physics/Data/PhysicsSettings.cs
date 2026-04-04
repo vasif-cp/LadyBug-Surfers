@@ -9,6 +9,7 @@ namespace LS.CharacterController.Physics.Data
         public float SteerForce = 10f;
         public float SteerSpeedReference = 5f;
         public float GroundCheckDistance = 2f;
+        public float ObstacleSlowFactor = 0.5f;
         public LayerMask GroundLayerMask;
 
         [Space(10)] 

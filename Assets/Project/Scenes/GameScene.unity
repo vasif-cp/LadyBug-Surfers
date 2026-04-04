@@ -3469,7 +3469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e009bf1c6185a49a79967106f4c5b435, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LS.UI.View.SessionEndView
-  _distanceText: {fileID: 1903684325}
+  _collectedCoinsText: {fileID: 1903684325}
   _continueButton: {fileID: 320557074}
 --- !u!225 &1901234526
 CanvasGroup:

@@ -13,6 +13,8 @@ namespace LS.Events
         
         
         public static Action<int,int,int> OnCollectibleCollected;
+        public static Action<int> OnCoinsCollected;
+        
         public static Action<ObstacleType> OnObstacleHit;
 
         public static Action<GameplaySession> OnSessionEnded;

@@ -15,7 +15,17 @@ namespace LS.Gameplay
         private GameplaySession _gameplaySession;
         
         public GameplaySession GameplaySession => _gameplaySession;
-        
+
+        private void Awake()
+        {
+            GameEvents.OnCoinsCollected += CollectCoins;
+        }
+
+        private void OnDestroy()
+        {
+            GameEvents.OnCoinsCollected -= CollectCoins;
+        }
+
         private void Start()
         {
             _gameplaySession = new GameplaySession(_characterTransform);
@@ -26,6 +36,12 @@ namespace LS.Gameplay
         {
             _gameplaySession.OnUpdate();
             CheckSessionEnd();
+        }
+
+        private void CollectCoins(int value)
+        {
+            if (!_gameplaySession.IsActive) return;
+            _gameplaySession.AddCoins(value);
         }
 
         private void CheckSessionEnd()

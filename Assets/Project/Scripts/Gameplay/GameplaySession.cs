@@ -8,6 +8,7 @@ namespace LS.Gameplay
         private Transform _character;
         
         public float TravelledDistance { get; private set; }
+        public int CollectedCoins { get; private set; }
         public bool IsActive { get; private set; }
         
         public GameplaySession(Transform character)
@@ -20,6 +21,7 @@ namespace LS.Gameplay
         {
             _startPosition = _character.position;
             TravelledDistance = 0f;
+            CollectedCoins = 0;
             IsActive = true;
         }
 
@@ -32,6 +34,11 @@ namespace LS.Gameplay
         public void OnEnd()
         {
             IsActive = false;
+        }
+        
+        public void AddCoins(int collectedAmount)
+        {
+            CollectedCoins += collectedAmount;
         }
     }
 }

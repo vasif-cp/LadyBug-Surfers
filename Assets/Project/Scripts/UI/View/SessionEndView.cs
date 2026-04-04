@@ -10,7 +10,7 @@ namespace LS.UI.View
 {
     public class SessionEndView : UIViewBase
     {
-        [SerializeField] private TMP_Text _distanceText;
+        [SerializeField] private TMP_Text _collectedCoinsText;
         [SerializeField] private Button _continueButton;
 
         private void Awake()
@@ -26,7 +26,7 @@ namespace LS.UI.View
 
         private void OnGameplaySessionEnd(GameplaySession gameplaySession)
         {
-            _distanceText.SetText("{0}m", (int)gameplaySession.TravelledDistance);
+            _collectedCoinsText.SetText("{0} <sprite index=0>", gameplaySession.CollectedCoins);
             Show();
         }
 

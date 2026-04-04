@@ -12,8 +12,10 @@ namespace LS.Items.Slingshot
         
         [Header("Scene Dependencies")]
         [SerializeField] private CharacterMovementController _characterMovementController;
+        [SerializeField] private LineRenderer _bandLineRenderer;
         [SerializeField] private Transform _characterTransform;
         [SerializeField] private Camera _mainCamera;
+        
         
         private SlingshotEngine _engine;
         private Vector3 _restPosition;
@@ -38,6 +40,7 @@ namespace LS.Items.Slingshot
  
             HandleInput();
             InterpolateSledPosition();
+            UpdateBandVisuals();
         }
         
         private void HandleInput()
@@ -129,6 +132,16 @@ namespace LS.Items.Slingshot
 
         }
         
+        private void UpdateBandVisuals()
+        {
+            if (_bandLineRenderer == null) return;
+            
+            float _behindDistance = 2f;
+            Vector3 behindOffset = -_characterTransform.forward * _behindDistance;
+            Vector3 middlePoint = _characterTransform.position + behindOffset;
+
+            _bandLineRenderer.SetPosition(1, middlePoint);
+        }
         
         private Vector3 ScreenToGroundPlane(Vector2 screenPos)
         {

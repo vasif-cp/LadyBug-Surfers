@@ -12,7 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53d94006bd7034d1887e2c82a4729fbe, type: 3}
   m_Name: PhysicsSettings
   m_EditorClassIdentifier: Assembly-CSharp::Core.CharacterController.Physics.Data.PhysicsSettings
+  SteerForce: 10
+  SteerSpeedReference: 5
   GroundCheckDistance: 2
+  ObstacleSlowFactor: 0.5
+  StopSpeedThreshold: 0.05
   GroundLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  MaxPullDistance: 10
+  LaunchPullExponent: 2
+  MinForce: 5
+  MaxForce: 30
+  ForwardInterpolationSpeed: 10
+  BackwardInterpolationSpeed: 5

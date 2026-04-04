@@ -24,7 +24,7 @@ namespace LS.CharacterController.Core
 
 
         public bool HasLaunched => _coreSledPhysics.HasLaunched;
-
+        public Vector3 Velocity => _rigidbody.linearVelocity;  
 
         private void Awake()
         {

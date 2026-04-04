@@ -18,7 +18,7 @@ namespace LS.UI.View
 
         private void OnDestroy()
         {
-            GameEvents.OnPullEnded -= Hide;
+            GameEvents.OnPullEnded -= Show;
         }
 
         private void LateUpdate()

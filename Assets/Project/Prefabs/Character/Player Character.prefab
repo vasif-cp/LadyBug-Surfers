@@ -188,7 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6343796fb02154979b08f4cf546e0517, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LS.Items.Obstacles.ObstacleEffectHandler
-  _physicsSettings: {fileID: 0}
+  _physicsSettings: {fileID: 11400000, guid: a56742727212c4560bd3ac8e4e6504f3, type: 2}
 --- !u!1 &5767031167431292133
 GameObject:
   m_ObjectHideFlags: 0

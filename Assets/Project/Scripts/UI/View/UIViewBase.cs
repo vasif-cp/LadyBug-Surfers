@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace LS.UI.View
 {
+    [RequireComponent(typeof(CanvasGroup))]
     public abstract class UIViewBase : MonoBehaviour
     {
         private CanvasGroup _canvasGroup;

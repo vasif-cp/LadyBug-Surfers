@@ -3139,6 +3139,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LS.Gameplay.GameFlowController
   _physicsSettings: {fileID: 11400000, guid: a56742727212c4560bd3ac8e4e6504f3, type: 2}
   _characterMovementController: {fileID: 8868175438643931894}
+  _metaGameController: {fileID: 588406574}
+  _slingshotController: {fileID: 1005837788}
   _characterTransform: {fileID: 1408858646}
 --- !u!1 &1551789019
 GameObject:

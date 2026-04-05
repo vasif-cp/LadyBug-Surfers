@@ -16,7 +16,7 @@ MonoBehaviour:
   SteerSpeedReference: 5
   GroundCheckDistance: 2
   ObstacleSlowFactor: 0.5
-  StopSpeedThreshold: 0.05
+  StopSpeedThreshold: 0.01
   GroundLayerMask:
     serializedVersion: 2
     m_Bits: 64

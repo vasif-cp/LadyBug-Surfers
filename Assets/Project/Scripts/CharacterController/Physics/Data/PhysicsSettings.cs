@@ -11,6 +11,7 @@ namespace LS.CharacterController.Physics.Data
         public float GroundCheckDistance = 2f;
         public float ObstacleSlowFactor = 0.5f;
         public float StopSpeedThreshold = 0.25f;
+        public float LaunchConfirmThreshold = 2f;
         public LayerMask GroundLayerMask;
 
         [Space(10)] 

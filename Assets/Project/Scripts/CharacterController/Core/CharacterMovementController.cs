@@ -1,6 +1,7 @@
 using System;
 using LS.CharacterController.Physics.Data;
 using LS.CharacterController.Physics.Core;
+using LS.Meta;
 using UnityEngine;
 
 namespace LS.CharacterController.Core
@@ -21,8 +22,7 @@ namespace LS.CharacterController.Core
         
         private float _steerInput;
         private bool _launchRequested;
-
-
+        
         public bool HasLaunched => _coreSledPhysics.HasLaunched;
         public Vector3 Velocity => _rigidbody.linearVelocity;  
 
@@ -52,7 +52,6 @@ namespace LS.CharacterController.Core
         {
             _steerInput = Mathf.Clamp(horizontal, -1f, 1f);
         }
-
         
         private void HandleLaunch()
         {
@@ -76,6 +75,12 @@ namespace LS.CharacterController.Core
             _coreSledPhysics.MarkLaunched(); 
             _rigidbody.AddForce(impulse, ForceMode.VelocityChange);
         }
+        
+        public void ApplyUpgradeModifiers(in UpgradeModifiers modifiers)                                                                                                            
+        {                                                               
+            _coreSledPhysics.ApplyModifiers(modifiers.SteeringBonus, modifiers.SpeedBoostForceBonus);
+        }
+
         
         public void ApplySlowdown(float slowdownFactor)
         {

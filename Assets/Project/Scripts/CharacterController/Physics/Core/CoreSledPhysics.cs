@@ -11,6 +11,9 @@ namespace LS.CharacterController.Physics.Core
         private Vector3 _currentVelocity;
         private float _currentSpeed;
         
+        private float _steeringBonus;                                                                                                                                               
+        private float _speedBoostForce;
+        
         public bool HasLaunched => _hasLaunched;
         
         public CoreSledPhysics(PhysicsSettings physicsSettings)
@@ -26,6 +29,7 @@ namespace LS.CharacterController.Physics.Core
             var result = new ForceResult();
  
             result.TotalForce += CalculateSteeringForce(ground, steerInput);
+            result.TotalForce += CalculateSpeedBoost();
  
             result.HasTargetRotation = true;
             return result;
@@ -41,7 +45,7 @@ namespace LS.CharacterController.Physics.Core
             Vector3 slopeForward = Vector3.ProjectOnPlane(forwardReference, ground.SurfaceNormal).normalized;
             Vector3 slopeRight = Vector3.Cross(ground.SurfaceNormal, slopeForward).normalized;
 
-            float steerForce = _physicsSettings.SteerForce * steerInput;
+            float steerForce = (_physicsSettings.SteerForce + _steeringBonus) * steerInput;
             float speedFactor = Mathf.Clamp01(_currentVelocity.magnitude / _physicsSettings.SteerSpeedReference);
 
             return slopeRight * steerForce * speedFactor;
@@ -56,6 +60,18 @@ namespace LS.CharacterController.Physics.Core
             Vector3 launchDirection = (forward + Vector3.down).normalized;
             return launchDirection * power;
         }
+        
+        private Vector3 CalculateSpeedBoost()                                                                                                                                       
+        {                                    
+            if (_speedBoostForce <= 0f || _currentVelocity.sqrMagnitude < 0.1f) return Vector3.zero;                                                                                
+            return _currentVelocity.normalized * _speedBoostForce;
+        }     
+        
+        public void ApplyModifiers(float steeringBonus, float speedBoostForce)
+        {                                                                                                                                                                           
+            _steeringBonus = steeringBonus;
+            _speedBoostForce = speedBoostForce;                                                                                                                                     
+        }   
         
         public void MarkLaunched() => _hasLaunched = true;
     }

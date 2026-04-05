@@ -2,6 +2,7 @@ using System;
 using LS.CharacterController.Core;
 using LS.CharacterController.Physics.Data;
 using LS.Events;
+using LS.Meta;
 using UnityEngine;
 
 namespace LS.Items.Slingshot
@@ -21,6 +22,7 @@ namespace LS.Items.Slingshot
         private SlingshotEngine _engine;
         private Vector3 _restPosition;
         private Vector3 _currentCharacterPosition;
+        private float _launchPowerBonus;
         private bool _isActive;
 
         private void Awake()
@@ -94,6 +96,12 @@ namespace LS.Items.Slingshot
                 ReleasePull();
             }
         }
+        
+        public void ApplyUpgradeModifiers(in UpgradeModifiers modifiers)
+        {                                                               
+            _launchPowerBonus = modifiers.LaunchPowerBonus;
+        }
+
         
         private void TryBeginPull(Vector2 screenPosition)
         {
@@ -179,7 +187,8 @@ namespace LS.Items.Slingshot
         
         private float GetLaunchMultiplier()
         {
-            return 1f;
+            float effectiveMax = _physicsSettings.MaxForce * _launchPowerBonus;
+            return effectiveMax / Mathf.Max(_physicsSettings.MaxForce, 0.01f);
         }
     }
 }

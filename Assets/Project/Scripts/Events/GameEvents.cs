@@ -9,6 +9,7 @@ namespace LS.Events
     public class GameEvents
     {
         public static Action OnGameStartRequested;
+        public static Action OnCameraTransitionComplete;
         
         public static Action OnPullStarted;
         public static Action<float> OnPullUpdated;

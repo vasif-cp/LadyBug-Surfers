@@ -15,7 +15,7 @@ namespace LS.Items.Slingshot
         [SerializeField] private CharacterMovementController _characterMovementController;
         [SerializeField] private LineRenderer _bandLineRenderer;
         [SerializeField] private Transform _characterTransform;
-        [SerializeField] private Camera _mainCamera;
+        [SerializeField] private UnityEngine.Camera _mainCamera;
         
         
         private SlingshotEngine _engine;
@@ -28,12 +28,12 @@ namespace LS.Items.Slingshot
             _engine = new SlingshotEngine(_physicsSettings);
             _isActive = false;
             
-            GameEvents.OnGameStartRequested += OnGameStartRequested;
+            GameEvents.OnCameraTransitionComplete += OnGameStartRequested;
         }
 
         private void OnDestroy()
         {
-            GameEvents.OnGameStartRequested -= OnGameStartRequested;
+            GameEvents.OnCameraTransitionComplete -= OnGameStartRequested;
         }
 
         private void OnEnable()

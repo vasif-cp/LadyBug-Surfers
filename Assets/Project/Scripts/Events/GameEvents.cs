@@ -1,6 +1,7 @@
 using System;
 using LS.Gameplay;
 using LS.Items.Obstacles;
+using LS.Meta;
 using UnityEngine;
 
 namespace LS.Events
@@ -11,6 +12,8 @@ namespace LS.Events
         public static Action<float> OnPullUpdated;
         public static Action OnPullEnded;
         
+        public static Action<UpgradeType> OnUpgradePurchased;
+
         
         public static Action<int,int,int> OnCollectibleCollected;
         public static Action<int> OnCoinsCollected;

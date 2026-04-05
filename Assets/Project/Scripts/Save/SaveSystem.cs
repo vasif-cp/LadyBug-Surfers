@@ -1,3 +1,4 @@
+using LS.Meta;
 using UnityEngine;
 
 namespace LS.Save
@@ -6,6 +7,7 @@ namespace LS.Save
     {
         private const string KeyBestDistance = "GameplayData:BestDistance";
         private const string KeyCollectibles = "GameplayData:Collectibles";
+        private const string KeyUpgrade = "Upgrade:Level";
 
         public static int BestDistance
         {
@@ -17,6 +19,7 @@ namespace LS.Save
             }
         }
 
+        #region Collectibles
         public static void SaveCollectible(int resourceID, int itemID)
         {
             Debug.LogError($"Saving collectible {resourceID}:{itemID}");
@@ -30,7 +33,15 @@ namespace LS.Save
         private static string CollectibleKey(int resourceID, int itemID) =>
             $"{KeyCollectibles}:{resourceID}:{itemID}";
 
+        #endregion
         
+        #region Meta Upgrades
+        public static int LoadUpgradeLevel(UpgradeType type) =>
+            PlayerPrefs.GetInt($"{KeyUpgrade}:{(int)type}", 0);   
+        
+        public static void SaveUpgradeLevel(UpgradeType type, int level) =>
+            PlayerPrefs.SetInt($"{KeyUpgrade}:{(int)type}", level);    
+        #endregion
         
     }
 }

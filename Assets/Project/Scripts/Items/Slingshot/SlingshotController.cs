@@ -26,13 +26,25 @@ namespace LS.Items.Slingshot
         private void Awake()
         {
             _engine = new SlingshotEngine(_physicsSettings);
-            _isActive = true;
+            _isActive = false;
+            
+            GameEvents.OnGameStartRequested += OnGameStartRequested;
         }
-        
+
+        private void OnDestroy()
+        {
+            GameEvents.OnGameStartRequested -= OnGameStartRequested;
+        }
+
         private void OnEnable()
         {
             _restPosition = _characterTransform.position;
             _currentCharacterPosition = _restPosition;
+        }
+
+        private void OnGameStartRequested()
+        {
+            _isActive = true;
         }
         
         private void Update()

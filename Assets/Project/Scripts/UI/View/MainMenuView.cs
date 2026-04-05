@@ -1,3 +1,4 @@
+using LS.Events;
 using LS.Meta;
 using LS.UI.View;
 using UnityEngine;
@@ -12,8 +13,7 @@ namespace LS.UI.View
                                                                                                                                                                               
         [Header("UI Dependencies")]
         [SerializeField] private UpgradeSlotView _upgradeSlotPrefab;
-        [SerializeField] private Transform _slotsContainer;                                                                         
-        [SerializeField] private Button _playButton;
+        [SerializeField] private Transform _slotsContainer;    
         
 
         private void Start()
@@ -24,15 +24,13 @@ namespace LS.UI.View
             {
                 var upgradeSlotView = Instantiate(_upgradeSlotPrefab, _slotsContainer);
                 upgradeSlotView.Initialize(_metaGameController.UpgradeManager, type);                                                                                                  
-            }
-
-                                                                        
-            //_playButton.onClick.AddListener(OnPlayClicked);                                                                                                                 
+            }                                                                                                               
         }
         
-        private void OnPlayClicked()
+        public void OnPlayRequested()
         {                                                                                                                                                                   
             Hide();
+            GameEvents.OnGameStartRequested?.Invoke();
         }    
     }
 }

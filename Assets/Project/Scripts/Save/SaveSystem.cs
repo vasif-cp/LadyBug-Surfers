@@ -22,7 +22,6 @@ namespace LS.Save
         #region Collectibles
         public static void SaveCollectible(int resourceID, int itemID)
         {
-            Debug.LogError($"Saving collectible {resourceID}:{itemID}");
             PlayerPrefs.SetInt(CollectibleKey(resourceID, itemID), 1);
         }
         

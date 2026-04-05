@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using LS.Events;
+using LS.Gameplay;
 using LS.Save;
 using UnityEngine;
 
@@ -8,6 +10,8 @@ namespace LS.Items.Collectibles
     public class CollectibleManager : MonoBehaviour
     {
         private BaseCollectible[] _allCollectibles;
+        private readonly HashSet<(int resourceID, int itemID)> _collectedSetOnSession = new();
+
         
         private const string KeyPrefix = "Collectible_";
 
@@ -15,6 +19,7 @@ namespace LS.Items.Collectibles
         {
             _allCollectibles = GetComponentsInChildren<BaseCollectible>();
             GameEvents.OnCollectibleCollected += HandleCollectable;
+            GameEvents.OnSessionEnded += OnSessionEnded;
         }
 
         private void Start()
@@ -25,23 +30,33 @@ namespace LS.Items.Collectibles
         private void OnDestroy()
         {
             GameEvents.OnCollectibleCollected -= HandleCollectable;
+            GameEvents.OnSessionEnded -= OnSessionEnded;
         }
 
         private void HandleCollectable(int resourceID, int itemID, int value)
         {
-            if (SaveSystem.IsCollectibleCollected(resourceID, itemID)) return;
- 
-            SaveSystem.SaveCollectible(resourceID, itemID);
- 
+            if (SaveSystem.IsCollectibleCollected(resourceID, itemID) || 
+                !_collectedSetOnSession.Add((resourceID, itemID))) return;     
+                                                                                                                                                                              
             for (int i = 0; i < _allCollectibles.Length; i++)
-            {
-                if (_allCollectibles[i].ResourceID.Equals(resourceID) && _allCollectibles[i].UniqueId.Equals(itemID))
-                {
+            {                                                                                                                                                               
+                if (_allCollectibles[i].ResourceID == resourceID && _allCollectibles[i].UniqueId == itemID)
+                {                                                                                                                                                           
                     _allCollectibles[i].OnCollected();
-                    break;
+                    break;                                                                                                                                                  
                 }
             }
         }
+        
+        private void OnSessionEnded(GameplaySession gameplaySession)                                                                                                                
+        {
+            foreach (var (resourceID, itemID) in _collectedSetOnSession)                                                                                                         
+                SaveSystem.SaveCollectible(resourceID, itemID);
+            
+            _collectedSetOnSession.Clear();
+        }                                                                                                                                                                   
+
+
         
         private void SyncAll()
         {

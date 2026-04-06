@@ -30,7 +30,7 @@ namespace LS.UI.View
 
         private void UpdatePullPercent(float normalizedValue)
         {
-            float pullPercentage = normalizedValue * 1000;
+            float pullPercentage = normalizedValue * 100;
             _percentText.SetText($"{pullPercentage:F0}%");
  
             if (_fillBar != null)

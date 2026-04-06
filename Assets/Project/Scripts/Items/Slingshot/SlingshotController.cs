@@ -52,7 +52,6 @@ namespace LS.Items.Slingshot
         private void OnGameStartRequested()
         {
             _isActive = true;
-            _joystick.gameObject.SetActive(true);
         }
         
         private void Update()

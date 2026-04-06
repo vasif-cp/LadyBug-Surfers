@@ -13,7 +13,6 @@ namespace LS.CharacterController.Core
         private void Awake()
         {
             _characterMovementController = GetComponent<CharacterMovementController>();
-            _joystick.gameObject.SetActive(false);
         }
 
         private void Update()

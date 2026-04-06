@@ -187,7 +187,7 @@ namespace LS.Items.Slingshot
         
         private float GetLaunchMultiplier()
         {
-            float effectiveMax = _physicsSettings.MaxForce * _launchPowerBonus;
+            float effectiveMax = _physicsSettings.MaxForce + _launchPowerBonus;                                                                                                     
             return effectiveMax / Mathf.Max(_physicsSettings.MaxForce, 0.01f);
         }
     }

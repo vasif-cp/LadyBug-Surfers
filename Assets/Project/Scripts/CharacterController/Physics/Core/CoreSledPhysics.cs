@@ -31,6 +31,9 @@ namespace LS.CharacterController.Physics.Core
             result.TotalForce += CalculateSteeringForce(ground, steerInput);
             result.TotalForce += CalculateSpeedBoost();
             result.TotalForce += CalculateFrictionForce(ground);
+            result.TotalForce += CalculateSlopeGravityForce(ground);
+            result.TotalForce += CalculateGroundStickForce(ground);
+            result.TotalForce += CalculateAirDrag(ground);
  
             result.HasTargetRotation = true;
             return result;
@@ -38,18 +41,21 @@ namespace LS.CharacterController.Physics.Core
         
         private Vector3 CalculateSteeringForce(GroundInfo ground, float steerInput)
         {
-            if (!ground.IsGrounded || Mathf.Approximately(steerInput, 0f))
-                return Vector3.zero;
- 
-            Vector3 forwardReference = _currentVelocity.sqrMagnitude > 0.5f ? _currentVelocity.normalized : Vector3.forward;
+            if (!ground.IsGrounded || Mathf.Approximately(steerInput, 0f)) return Vector3.zero;
+
+            Vector3 forwardReference  = _currentVelocity.sqrMagnitude > 0.5f
+                ? _currentVelocity.normalized : Vector3.forward;
 
             Vector3 slopeForward = Vector3.ProjectOnPlane(forwardReference, ground.SurfaceNormal).normalized;
-            Vector3 slopeRight = Vector3.Cross(ground.SurfaceNormal, slopeForward).normalized;
+            Vector3 slopeRight   = Vector3.Cross(ground.SurfaceNormal, slopeForward).normalized;
 
             float steerForce = (_physicsSettings.SteerForce + _steeringBonus) * steerInput;
-            float speedFactor = Mathf.Clamp01(_currentVelocity.magnitude / _physicsSettings.SteerSpeedReference);
 
-            return slopeRight * steerForce * speedFactor;
+            float speedFactor     = Mathf.Clamp01(_currentSpeed / _physicsSettings.SteerSpeedReference);
+            float highSpeedDampen = 1f / (1f + _currentSpeed * _physicsSettings.HighSpeedSteerDamping);
+
+            return slopeRight * steerForce * speedFactor * highSpeedDampen;
+
         }
         
         private Vector3 CalculateFrictionForce(GroundInfo ground)                                                                                                                   
@@ -63,14 +69,33 @@ namespace LS.CharacterController.Physics.Core
             return -_currentVelocity.normalized * friction;
         }    
         
+        private Vector3 CalculateSlopeGravityForce(GroundInfo ground)
+        {
+            if (!ground.IsGrounded) return Vector3.zero;
+            return Vector3.ProjectOnPlane(UnityEngine.Physics.gravity, ground.SurfaceNormal)
+                   * _physicsSettings.SlopeGravityMultiplier;
+        }
+        
+        private Vector3 CalculateGroundStickForce(GroundInfo ground)
+        {
+            if (!ground.IsGrounded) return Vector3.zero;
+            return -ground.SurfaceNormal * _physicsSettings.GroundStickForce;
+        }
+
+        private Vector3 CalculateAirDrag(GroundInfo ground)
+        {
+            if (ground.IsGrounded || _currentVelocity.sqrMagnitude < 0.1f) return Vector3.zero;
+            return -_currentVelocity.normalized * _physicsSettings.AirDragForce;
+
+        }
+
+
+        
         public Vector3 CalculateLaunchImpulse(Vector3 forward)
         {
             _hasLaunched = true;
-
-            float power = 50.0f;
- 
             Vector3 launchDirection = (forward + Vector3.down).normalized;
-            return launchDirection * power;
+            return launchDirection * _physicsSettings.MaxForce;
         }
         
         private Vector3 CalculateSpeedBoost()                                                                                                                                       

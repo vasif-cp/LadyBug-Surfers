@@ -46,6 +46,23 @@ namespace LS.CharacterController.Core
  
             _rigidbody.AddForce(forces.TotalForce, ForceMode.Acceleration);
             
+            if (_rigidbody.linearVelocity.magnitude > _physicsSettings.MaxSpeed)
+                _rigidbody.linearVelocity = _rigidbody.linearVelocity.normalized * _physicsSettings.MaxSpeed;
+            
+            if (ground.IsGrounded && _visualModelTransform != null && _rigidbody.linearVelocity.sqrMagnitude > 0.1f)
+            {
+                Vector3 forward = Vector3.ProjectOnPlane(_rigidbody.linearVelocity, ground.SurfaceNormal).normalized;
+                Quaternion slopeRotation = Quaternion.LookRotation(forward, ground.SurfaceNormal);
+
+                float bankAngle = -_steerInput * _physicsSettings.MaxBankAngle;
+                Quaternion bankRotation = Quaternion.AngleAxis(bankAngle, forward);
+
+                Quaternion targetRotation = bankRotation * slopeRotation;
+                _visualModelTransform.rotation = Quaternion.Slerp(
+                    _visualModelTransform.rotation, targetRotation,
+                    Time.fixedDeltaTime * _physicsSettings.VisualAlignSpeed);
+            }
+
         }
         
         public void SetSteerInput(float horizontal)

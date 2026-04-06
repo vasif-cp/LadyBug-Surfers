@@ -53,7 +53,7 @@ namespace LS.UI.View
             int  level  = _upgradeManager.GetLevel(_upgradeType);
             int  price  = _upgradeManager.GetNextPrice(_upgradeType);     
                                                                                                                                                                               
-            _levelText.SetText("{0}", level);
+            _levelText.SetText("{0}", level + 1);
             _upgradeButton.interactable = !isMax;            
             
             _priceText.SetText(isMax ? string.Empty : "<sprite index=0>{0}", price);    

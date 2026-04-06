@@ -1,20 +1,24 @@
+using LS.Meta;
 using UnityEngine;
 
 namespace LS.Gameplay
 {
     public class GameplaySession
     {
+        private UpgradeModifiers _upgradeModifiers;
         private Vector3 _startPosition;
         private Transform _character;
         
         public float TravelledDistance { get; private set; }
         public int CollectedCoins { get; private set; }
+        public int EarnedCoins { get; private set; }
         public bool IsActive { get; private set; }
         
-        public GameplaySession(Transform character)
+        public GameplaySession(UpgradeModifiers upgradeModifiers, Transform character)
         {
             _character = character;
             _startPosition = character.position;
+            _upgradeModifiers = upgradeModifiers;
         }
 
         public void OnStart()
@@ -22,6 +26,7 @@ namespace LS.Gameplay
             _startPosition = _character.position;
             TravelledDistance = 0f;
             CollectedCoins = 0;
+            EarnedCoins = 0;
             IsActive = true;
         }
 
@@ -34,11 +39,24 @@ namespace LS.Gameplay
         public void OnEnd()
         {
             IsActive = false;
+            CalculateEarnedCoins();
         }
         
         public void AddCoins(int collectedAmount)
         {
             CollectedCoins += collectedAmount;
+        }
+
+        private void CalculateEarnedCoins()
+        {
+            const float baseCoinsPerMeter = 0.5f;
+            const int collectibleBonusCoins = 50;
+            float coinRate = baseCoinsPerMeter + _upgradeModifiers.CollectibleValueBonus;                                                                         
+            int distanceCoins = Mathf.FloorToInt(TravelledDistance * coinRate);
+            int collectibleCoins = CollectedCoins * collectibleBonusCoins;
+                                              
+            EarnedCoins = distanceCoins + collectibleCoins;
+
         }
     }
 }

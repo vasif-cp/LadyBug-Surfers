@@ -20,6 +20,7 @@ namespace LS.Events
         
         public static Action<int,int,int> OnCollectibleCollected;
         public static Action<int> OnCoinsCollected;
+        public static Action<int> OnCoinsBalanceUpdated;
         
         public static Action<ObstacleType> OnObstacleHit;
 

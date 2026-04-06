@@ -35,11 +35,13 @@ namespace LS.Meta
                   
         public bool TryPurchase(UpgradeType type)
         {
-            if (IsMaxLevel(type)) return false;                          
+            if (IsMaxLevel(type)) return false;      
+            if (!SaveSystem.TryToSpendCoins(GetNextPrice(type))) return false;
                                                                                                                                                                               
             _levels[(int)type]++;
             SaveSystem.SaveUpgradeLevel(type, _levels[(int)type]);                                                                                                          
             GameEvents.OnUpgradePurchased?.Invoke(type);
+            GameEvents.OnCoinsBalanceUpdated?.Invoke(SaveSystem.LoadCoins());                                                                                                        
             return true;                                                                                                                                                    
         }
         

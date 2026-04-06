@@ -8,6 +8,7 @@ namespace LS.Save
         private const string KeyBestDistance = "GameplayData:BestDistance";
         private const string KeyCollectibles = "GameplayData:Collectibles";
         private const string KeyUpgrade = "Upgrade:Level";
+        private const string KeyCoins = "Resource:Coins";
 
         public static int BestDistance
         {
@@ -41,6 +42,23 @@ namespace LS.Save
         public static void SaveUpgradeLevel(UpgradeType type, int level) =>
             PlayerPrefs.SetInt($"{KeyUpgrade}:{(int)type}", level);    
         #endregion
+
+        #region Coins Resource
+        public static int LoadCoins() => PlayerPrefs.GetInt(KeyCoins, 100);
         
+        public static void AddCoins(int amount) => SaveCoins(LoadCoins() + amount);
+        
+        private static void SaveCoins(int amount) => PlayerPrefs.SetInt(KeyCoins, amount);
+
+        public static bool TryToSpendCoins(int amount)
+        {
+            int current = LoadCoins();
+            if (current < amount) return false;
+            SaveCoins(current - amount);                                                                                                                                     
+            return true;
+
+        }
+        
+        #endregion
     }
 }

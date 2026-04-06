@@ -1,4 +1,7 @@
 using System;
+using LS.Events;
+using LS.Gameplay;
+using LS.Save;
 using UnityEngine;
 
 namespace LS.Meta
@@ -14,6 +17,19 @@ namespace LS.Meta
         private void Awake()
         {
             _upgradeManager = new UpgradeManager(_upgradeSettings);
+            GameEvents.OnSessionEnded += OnSessionEnded;
+        }
+
+        private void OnDestroy()
+        {
+            GameEvents.OnSessionEnded -= OnSessionEnded;
+
+        }
+
+        private void OnSessionEnded(GameplaySession session)
+        {
+            SaveSystem.AddCoins(session.EarnedCoins);                                                                                                                               
+            GameEvents.OnCoinsBalanceUpdated?.Invoke(SaveSystem.LoadCoins());
         }
     }
 }

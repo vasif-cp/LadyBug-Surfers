@@ -26,7 +26,7 @@ namespace LS.UI.View
 
         private void OnGameplaySessionEnd(GameplaySession gameplaySession)
         {
-            _collectedCoinsText.SetText("{0} <sprite index=0>", gameplaySession.CollectedCoins);
+            _collectedCoinsText.SetText("{0} <sprite index=0>", gameplaySession.EarnedCoins);
             Show();
         }
 

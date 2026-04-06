@@ -35,7 +35,7 @@ namespace LS.Gameplay
 
         private void Start()
         {
-            _gameplaySession = new GameplaySession(_characterTransform);
+            _gameplaySession = new GameplaySession(_metaGameController.UpgradeManager.GetModifiers(),_characterTransform);
             _gameplaySession.OnStart();
             _launchConfirmed = false;
         }

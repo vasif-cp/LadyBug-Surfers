@@ -14,13 +14,6 @@ namespace LS.CharacterController.Core
         {
             _characterMovementController = GetComponent<CharacterMovementController>();
             _joystick.gameObject.SetActive(false);
-
-            GameEvents.OnPullEnded += OnLaunched;
-        }
-
-        private void OnDestroy()
-        {
-            GameEvents.OnPullEnded -= OnLaunched;
         }
 
         private void Update()
@@ -30,8 +23,6 @@ namespace LS.CharacterController.Core
                 HandleSteeringInput();
             }
         }
-
-        private void OnLaunched() => _joystick.gameObject.SetActive(true);
         
         private void HandleSteeringInput()
         {

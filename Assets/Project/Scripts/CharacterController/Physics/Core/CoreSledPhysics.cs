@@ -34,6 +34,7 @@ namespace LS.CharacterController.Physics.Core
             result.TotalForce += CalculateSlopeGravityForce(ground);
             result.TotalForce += CalculateGroundStickForce(ground);
             result.TotalForce += CalculateAirDrag(ground);
+            result.TotalForce += CalculateAirGravity(ground);
  
             result.HasTargetRotation = true;
             return result;
@@ -66,7 +67,7 @@ namespace LS.CharacterController.Physics.Core
                 ? _physicsSettings.IceFrictionForce                                                                                                                                 
                 : _physicsSettings.SnowFrictionForce;
                                                                                                                                                                               
-            return -_currentVelocity.normalized * friction;
+            return -_currentVelocity * friction;
         }    
         
         private Vector3 CalculateSlopeGravityForce(GroundInfo ground)
@@ -81,11 +82,17 @@ namespace LS.CharacterController.Physics.Core
             if (!ground.IsGrounded) return Vector3.zero;
             return -ground.SurfaceNormal * _physicsSettings.GroundStickForce;
         }
+        
+        private Vector3 CalculateAirGravity(GroundInfo ground)
+        {                                                                                                                                                                           
+            if (ground.IsGrounded) return Vector3.zero;                                                                                                                             
+            return Vector3.down * (-UnityEngine.Physics.gravity.y) * (_physicsSettings.AirGravityStickForce - 1f);                                                                  
+        }         
 
         private Vector3 CalculateAirDrag(GroundInfo ground)
         {
             if (ground.IsGrounded || _currentVelocity.sqrMagnitude < 0.1f) return Vector3.zero;
-            return -_currentVelocity.normalized * _physicsSettings.AirDragForce;
+            return -_currentVelocity * _physicsSettings.AirDragForce;
 
         }
 

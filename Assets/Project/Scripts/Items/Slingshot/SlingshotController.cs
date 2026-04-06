@@ -14,6 +14,7 @@ namespace LS.Items.Slingshot
         
         [Header("Scene Dependencies")]
         [SerializeField] private CharacterMovementController _characterMovementController;
+        [SerializeField] private FloatingJoystick _joystick;
         [SerializeField] private LineRenderer _bandLineRenderer;
         [SerializeField] private Transform _characterTransform;
         [SerializeField] private UnityEngine.Camera _mainCamera;
@@ -24,6 +25,10 @@ namespace LS.Items.Slingshot
         private Vector3 _currentCharacterPosition;
         private float _launchPowerBonus;
         private bool _isActive;
+        
+        
+        private const float PullStartThreshold = 0.2f;
+        private const float PullUpdateThreshold = 0.01f;
 
         private void Awake()
         {
@@ -47,6 +52,7 @@ namespace LS.Items.Slingshot
         private void OnGameStartRequested()
         {
             _isActive = true;
+            _joystick.gameObject.SetActive(true);
         }
         
         private void Update()
@@ -60,73 +66,43 @@ namespace LS.Items.Slingshot
         
         private void HandleInput()
         {
-            if (Input.touchCount > 0)
+            float pullInput = Mathf.Clamp01(-_joystick.Vertical); 
+                                                                                                                                                                              
+            if (!_engine.IsPulling)             
             {
-                Touch touch = Input.GetTouch(0);
- 
-                switch (touch.phase)
+                if (pullInput > PullStartThreshold)
                 {
-                    case TouchPhase.Began:
-                        TryBeginPull(touch.position);
-                        break;
-                    case TouchPhase.Moved:
-                    case TouchPhase.Stationary:
-                        if (_engine.IsPulling)
-                            UpdatePull(touch.position);
-                        break;
-                    case TouchPhase.Ended:
-                    case TouchPhase.Canceled:
-                        if (_engine.IsPulling)
-                            ReleasePull();
-                        break;
+                    BeginPull();
                 }
-                return; 
-            }
-            
-            if (Input.GetMouseButtonDown(0))
-            {
-                TryBeginPull(Input.mousePosition);
-            }
-            else if (Input.GetMouseButton(0) && _engine.IsPulling)
-            {
-                UpdatePull(Input.mousePosition);
-            }
-            else if (Input.GetMouseButtonUp(0) && _engine.IsPulling)
-            {
+            }                                                                                                                                                                       
+            else if (pullInput > PullUpdateThreshold)             
+            {                                   
+                UpdatePull(pullInput);
+            }                                                                                                                                                                       
+            else
+            {                                                                                                                                                                       
                 ReleasePull();
             }
         }
         
-        public void ApplyUpgradeModifiers(in UpgradeModifiers modifiers)
-        {                                                               
-            _launchPowerBonus = modifiers.LaunchPowerBonus;
-        }
-
-        
-        private void TryBeginPull(Vector2 screenPosition)
+        private void BeginPull()
         {
-            Vector3 worldPos = ScreenToGroundPlane(screenPosition);
-            float distToSled = Vector3.Distance(worldPos, _characterTransform.position);
- 
-            if (distToSled > _physicsSettings.MaxPullDistance * 0.5f) return;
- 
             _restPosition = _characterTransform.position;
-            _engine.BeginPull(_restPosition);
-            
+            _engine.BeginPull(_restPosition);   
             GameEvents.OnPullStarted?.Invoke();
+        }        
+        
+        private void UpdatePull(float pullAmount)                                                                                                                       
+        {               
+            Vector3 simulatedWorldPos = _restPosition
+                                        + (-_characterTransform.forward * pullAmount * _physicsSettings.MaxPullDistance);
+
+            Vector3 targetPos = _engine.UpdatePull(simulatedWorldPos, _characterTransform.forward);                                                                                 
+            _currentCharacterPosition = targetPos;
+                                                                                                                                                                              
+            GameEvents.OnPullUpdated?.Invoke(_engine.PullAmount);                                                                                                                   
         }
         
-        private void UpdatePull(Vector2 screenPosition)
-        {
-            Vector3 worldPos = ScreenToGroundPlane(screenPosition);
-            Vector3 targetPos = _engine.UpdatePull(worldPos, _characterTransform.forward);
- 
-            _currentCharacterPosition = targetPos;
-            
-            
-            float normalizedPullValue = Mathf.Clamp01(_engine.PullAmount / _physicsSettings.MaxPullDistance);
-            GameEvents.OnPullUpdated?.Invoke(normalizedPullValue);
-        }
         
         private void ReleasePull()
         {
@@ -151,9 +127,21 @@ namespace LS.Items.Slingshot
             _engine.Reset();
             _currentCharacterPosition = _restPosition;
         }
+
+        private bool IsJoystickInputActive()
+        {
+            return Mathf.Abs(_joystick.Vertical) > 0.0f;
+        }
+        
+        public void ApplyUpgradeModifiers(in UpgradeModifiers modifiers)
+        {                                                               
+            _launchPowerBonus = modifiers.LaunchPowerBonus;
+        }
         
         private void InterpolateSledPosition()
         {
+            if (!IsJoystickInputActive()) return;
+            
             float speed = _engine.IsPulling ? _physicsSettings.ForwardInterpolationSpeed : _physicsSettings.BackwardInterpolationSpeed;
 
             _characterTransform.position = Vector3.Lerp(_characterTransform.position, _currentCharacterPosition,
@@ -187,8 +175,7 @@ namespace LS.Items.Slingshot
         
         private float GetLaunchMultiplier()
         {
-            float effectiveMax = _physicsSettings.MaxForce + _launchPowerBonus;                                                                                                     
-            return effectiveMax / Mathf.Max(_physicsSettings.MaxForce, 0.01f);
+            return 1f + _launchPowerBonus;
         }
     }
 }

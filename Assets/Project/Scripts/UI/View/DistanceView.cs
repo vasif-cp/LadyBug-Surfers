@@ -23,7 +23,7 @@ namespace LS.UI.View
 
         private void LateUpdate()
         {
-            if (!_gameFlowController.GameplaySession.IsActive) return;
+            if (!_isActive || !_gameFlowController.GameplaySession.IsActive) return;
             _distanceText.SetText("{0}m", (int)_gameFlowController.GameplaySession.TravelledDistance);
         }
     }

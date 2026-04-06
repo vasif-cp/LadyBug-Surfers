@@ -46,9 +46,6 @@ namespace LS.CharacterController.Core
  
             _rigidbody.AddForce(forces.TotalForce, ForceMode.Acceleration);
             
-            if (_rigidbody.linearVelocity.magnitude > _physicsSettings.MaxSpeed)
-                _rigidbody.linearVelocity = _rigidbody.linearVelocity.normalized * _physicsSettings.MaxSpeed;
-            
             if (ground.IsGrounded && _visualModelTransform != null && _rigidbody.linearVelocity.sqrMagnitude > 0.1f)
             {
                 Vector3 forward = Vector3.ProjectOnPlane(_rigidbody.linearVelocity, ground.SurfaceNormal).normalized;

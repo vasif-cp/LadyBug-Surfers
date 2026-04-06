@@ -40,7 +40,7 @@ namespace LS.Gameplay
 
         private void Update()
         {
-            _gameplaySession.OnUpdate();
+            _gameplaySession?.OnUpdate();
             CheckSessionEnd();
         }
 
@@ -62,7 +62,7 @@ namespace LS.Gameplay
 
         private void CheckSessionEnd()
         {
-            if (!_gameplaySession.IsActive) return;
+            if (_gameplaySession == null || !_gameplaySession.IsActive) return;
             if (!_characterMovementController.HasLaunched) return;
             float sqrSpeed = _characterMovementController.Velocity.sqrMagnitude;
 

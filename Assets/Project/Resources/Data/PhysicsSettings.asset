@@ -25,10 +25,15 @@ MonoBehaviour:
   LaunchPullExponent: 2
   MinForce: 5
   MaxForce: 30
+  MaxSpeed: 40
+  SlopeGravityMultiplier: 1
+  GroundStickForce: 8
+  AirGravityStickForce: 5
+  AirDragForce: 0.2
+  HighSpeedSteerDamping: 0.05
+  VisualAlignSpeed: 12
+  MaxBankAngle: 20
   ForwardInterpolationSpeed: 10
   BackwardInterpolationSpeed: 5
-  IceLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  SnowFrictionForce: 5
-  IceFrictionForce: 2.5
+  SnowFrictionForce: 0.3
+  IceFrictionForce: 0.1

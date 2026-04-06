@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 namespace LS.UI.View
@@ -6,6 +7,9 @@ namespace LS.UI.View
     public abstract class UIViewBase : MonoBehaviour
     {
         private CanvasGroup _canvasGroup;
+        protected bool _isActive;
+
+        private const float FadeDuration = 0.25f;
 
         protected CanvasGroup CanvasGroup
         {
@@ -19,16 +23,22 @@ namespace LS.UI.View
 
         public virtual void Show()
         {
-            CanvasGroup.alpha = 1f;
-            CanvasGroup.interactable = true;
-            CanvasGroup.blocksRaycasts = true;
+            _isActive = true;
+            CanvasGroup.DOFade(1.0f, FadeDuration).OnComplete(() =>
+            {
+                CanvasGroup.interactable = true;
+                CanvasGroup.blocksRaycasts = true;
+            });
         }
 
         public virtual void Hide()
         {
-            CanvasGroup.alpha = 0f;
-            CanvasGroup.interactable = false;
-            CanvasGroup.blocksRaycasts = false;
+            _isActive = false;
+            CanvasGroup.DOFade(0.0f, FadeDuration).OnComplete(() =>
+            {
+                CanvasGroup.interactable = false;
+                CanvasGroup.blocksRaycasts = false;
+            });
         }
     }
 }

@@ -68,6 +68,7 @@ namespace LS.Items.Slingshot
             float maxLaunchForce = _physicsSettings.MaxForce;
             float launchPower = Mathf.Lerp(minLaunchForce, maxLaunchForce, curvedPull) * launchPowerMultiplier;
             
+            Debug.LogError("Launching with power: " + launchPower);
             _pullAmount = 0f;
             _pullOffset = Vector3.zero;
  

@@ -11,6 +11,7 @@ namespace LS.UI.View
     public class SessionEndView : UIViewBase
     {
         [SerializeField] private TMP_Text _collectedCoinsText;
+        [SerializeField] private TMP_Text _newRecordText;
         [SerializeField] private Button _continueButton;
 
         private void Awake()
@@ -27,6 +28,8 @@ namespace LS.UI.View
         private void OnGameplaySessionEnd(GameplaySession gameplaySession)
         {
             _collectedCoinsText.SetText("{0} <sprite index=0>", gameplaySession.EarnedCoins);
+            _newRecordText.gameObject.SetActive(gameplaySession.IsBestScore);
+            _newRecordText.text = _newRecordText.text.Replace("{0}", $"{gameplaySession.TravelledDistance:F0}m");
             Show();
         }
 

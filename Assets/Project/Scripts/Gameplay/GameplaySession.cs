@@ -1,4 +1,5 @@
 using LS.Meta;
+using LS.Save;
 using UnityEngine;
 
 namespace LS.Gameplay
@@ -13,6 +14,7 @@ namespace LS.Gameplay
         public int CollectedCoins { get; private set; }
         public int EarnedCoins { get; private set; }
         public bool IsActive { get; private set; }
+        public bool IsBestScore { get; private set; }
         
         public GameplaySession(UpgradeModifiers upgradeModifiers, Transform character)
         {
@@ -40,6 +42,7 @@ namespace LS.Gameplay
         {
             IsActive = false;
             CalculateEarnedCoins();
+            CheckPossibleBestScore();
         }
         
         public void AddCoins(int collectedAmount)
@@ -56,6 +59,14 @@ namespace LS.Gameplay
             int collectibleCoins = CollectedCoins * collectibleBonusCoins;
                                               
             EarnedCoins = distanceCoins + collectibleCoins;
+        }
+
+        private void CheckPossibleBestScore()
+        {
+            if (TravelledDistance <= SaveSystem.BestDistance) return;
+
+            IsBestScore = true;
+            SaveSystem.BestDistance = (int) TravelledDistance;
 
         }
     }

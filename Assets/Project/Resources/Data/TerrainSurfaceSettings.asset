@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46f4bb7e4527b4637beafcfe7b77e899, type: 3}
+  m_Name: TerrainSurfaceSettings
+  m_EditorClassIdentifier: Assembly-CSharp::LS.CharacterController.Physics.Data.TerrainSurfaceSettings
+  Mappings:
+  - TerrainLayer: {fileID: 8574412962073106934, guid: 22e215ac104f94c6b84885ae76c068f2, type: 2}
+    SurfaceType: 0
+  - TerrainLayer: {fileID: 8574412962073106934, guid: d5d811febd9f046c0965d0deee1152eb, type: 2}
+    SurfaceType: 1
+  DefaultSurfaceType: 0

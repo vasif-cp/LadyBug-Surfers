@@ -4073,6 +4073,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 742472923}
     m_Modifications:
+    - target: {fileID: 2239713116511039990, guid: 72b66afc47032401691a7fb39e59504f, type: 3}
+      propertyPath: _terrainSurfaceSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: 31a2961f063ad4f49bf7552683a1949c, type: 2}
     - target: {fileID: 2415346231237855266, guid: 72b66afc47032401691a7fb39e59504f, type: 3}
       propertyPath: m_Name
       value: Player Character

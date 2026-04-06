@@ -30,6 +30,7 @@ namespace LS.CharacterController.Physics.Core
  
             result.TotalForce += CalculateSteeringForce(ground, steerInput);
             result.TotalForce += CalculateSpeedBoost();
+            result.TotalForce += CalculateFrictionForce(ground);
  
             result.HasTargetRotation = true;
             return result;
@@ -50,6 +51,17 @@ namespace LS.CharacterController.Physics.Core
 
             return slopeRight * steerForce * speedFactor;
         }
+        
+        private Vector3 CalculateFrictionForce(GroundInfo ground)                                                                                                                   
+        {                                                        
+            if (!ground.IsGrounded || _currentVelocity.sqrMagnitude < 0.1f) return Vector3.zero;                                                                                    
+                                                                                                                                                                              
+            float friction = ground.SurfaceType == SurfaceType.Ice
+                ? _physicsSettings.IceFrictionForce                                                                                                                                 
+                : _physicsSettings.SnowFrictionForce;
+                                                                                                                                                                              
+            return -_currentVelocity.normalized * friction;
+        }    
         
         public Vector3 CalculateLaunchImpulse(Vector3 forward)
         {

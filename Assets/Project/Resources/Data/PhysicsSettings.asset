@@ -17,6 +17,7 @@ MonoBehaviour:
   GroundCheckDistance: 2
   ObstacleSlowFactor: 0.5
   StopSpeedThreshold: 0.01
+  LaunchConfirmThreshold: 2
   GroundLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -26,3 +27,8 @@ MonoBehaviour:
   MaxForce: 30
   ForwardInterpolationSpeed: 10
   BackwardInterpolationSpeed: 5
+  IceLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  SnowFrictionForce: 5
+  IceFrictionForce: 2.5

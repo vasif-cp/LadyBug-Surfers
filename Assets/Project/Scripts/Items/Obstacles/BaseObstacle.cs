@@ -11,7 +11,7 @@ namespace LS.Items.Obstacles
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.GetComponentInParent<CharacterMovementController>() != null)
+            if (other.GetComponentInParent<ICharacterMovementController>() != null)
                 GameEvents.OnObstacleHit?.Invoke(Type);
         }
 

@@ -8,11 +8,11 @@ namespace LS.CharacterController.Physics.Data
         [SerializeField] private CharacterPhysicsSettings _characterPhysics;
         [SerializeField] private SlingshotPhysicsSettings _slingshotPhysics;
         [SerializeField] private SurfacePhysicsSettings _surfacePhysics;
-        [SerializeField] private CollectablePhysicsSettings _collectablePhysics;
+        [SerializeField] private CollectiblePhysicsSettings _collectiblePhysics;
 
         public CharacterPhysicsSettings CharacterPhysics => _characterPhysics;
         public SlingshotPhysicsSettings SlingshotPhysics => _slingshotPhysics;
         public SurfacePhysicsSettings SurfacePhysics => _surfacePhysics;
-        public CollectablePhysicsSettings CollectablePhysics => _collectablePhysics;
+        public CollectiblePhysicsSettings CollectiblePhysics => _collectiblePhysics;
     }
 }

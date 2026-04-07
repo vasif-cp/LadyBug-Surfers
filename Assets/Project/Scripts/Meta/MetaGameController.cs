@@ -9,14 +9,10 @@ namespace LS.Meta
 {
     public class MetaGameController : MonoBehaviour, IInjectable
     {
-        private IUpgradeManager _upgradeManager;
         private ISaveSystem _saveSystem;
-        
-        public IUpgradeManager UpgradeManager => _upgradeManager;
         
         public void Inject(IGameContext context)
         {
-            _upgradeManager = context.UpgradeManager;
             _saveSystem = context.SaveSystem;
         }
 

@@ -16,6 +16,7 @@ namespace LS.Gameplay
         private Transform _characterTransform;
         
         private IUpgradeManager _upgradeManager;
+        private EconomySettings _economySettings;
         private ISaveSystem _saveSystem;
         private GameplaySession _gameplaySession;
         private PhysicsSettings _physicsSettings;
@@ -26,6 +27,7 @@ namespace LS.Gameplay
             _upgradeManager = context.UpgradeManager;
             _saveSystem = context.SaveSystem;
             _physicsSettings = context.PhysicsSettings;
+            _economySettings = context.EconomySettings;
 
             _characterMovementController = context.CharacterMovementController;
             _characterTransform = _characterMovementController.CharacterTransform;
@@ -65,7 +67,7 @@ namespace LS.Gameplay
             var modifiers = _upgradeManager.GetModifiers();
             GameEvents.OnUpgradeModifiersApplied?.Invoke(modifiers);
             
-            _gameplaySession = new GameplaySession(modifiers, _characterTransform, _saveSystem);
+            _gameplaySession = new GameplaySession(modifiers, _economySettings, _characterTransform, _saveSystem);
             _gameplaySession.OnStart();  
             
             GameEvents.OnSessionStarted?.Invoke(_gameplaySession); 

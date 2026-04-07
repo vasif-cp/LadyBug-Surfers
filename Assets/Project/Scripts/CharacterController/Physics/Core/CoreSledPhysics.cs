@@ -35,8 +35,6 @@ namespace LS.CharacterController.Physics.Core
             result.TotalForce += CalculateGroundStickForce(ground);
             result.TotalForce += CalculateAirDrag(ground);
             result.TotalForce += CalculateAirGravity(ground);
- 
-            result.HasTargetRotation = true;
             return result;
         }
         

@@ -7,6 +7,7 @@ namespace LS.Gameplay
     public class GameplaySession
     {
         private UpgradeModifiers _upgradeModifiers;
+        private EconomySettings _economySettings;
         private ISaveSystem _saveSystem;
         private Vector3 _startPosition;
         private Transform _character;
@@ -17,11 +18,12 @@ namespace LS.Gameplay
         public bool IsActive { get; private set; }
         public bool IsBestScore { get; private set; }
         
-        public GameplaySession(UpgradeModifiers upgradeModifiers, Transform character, ISaveSystem saveSystem)
+        public GameplaySession(UpgradeModifiers upgradeModifiers, EconomySettings economySettings, Transform character, ISaveSystem saveSystem)
         {
             _character = character;
             _startPosition = character.position;
             _upgradeModifiers = upgradeModifiers;
+            _economySettings = economySettings;
             _saveSystem = saveSystem;
         }
 
@@ -54,11 +56,9 @@ namespace LS.Gameplay
 
         private void CalculateEarnedCoins()
         {
-            const float baseCoinsPerMeter = 0.5f;
-            const int collectibleBonusCoins = 50;
-            float coinRate = baseCoinsPerMeter + _upgradeModifiers.CollectibleValueBonus;                                                                         
+            float coinRate = _economySettings.BaseCoinsPerMeter + _upgradeModifiers.CollectibleValueBonus;                                                                         
             int distanceCoins = Mathf.FloorToInt(TravelledDistance * coinRate);
-            int collectibleCoins = CollectedCoins * collectibleBonusCoins;
+            int collectibleCoins = CollectedCoins * _economySettings.CollectibleBonusCoins;
                                               
             EarnedCoins = distanceCoins + collectibleCoins;
         }

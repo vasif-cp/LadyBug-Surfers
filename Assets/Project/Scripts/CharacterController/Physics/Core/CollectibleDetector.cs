@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace LS.CharacterController.Physics
 {
-    public class CollectableDetector : MonoBehaviour, IInjectable
+    public class CollectibleDetector : MonoBehaviour, IInjectable
     {
         private float _radius = 3.0f;
         private LayerMask _collectibleLayer;
@@ -14,8 +14,8 @@ namespace LS.CharacterController.Physics
 
         public void Inject(IGameContext context)
         {
-            _radius = context.PhysicsSettings.CollectablePhysics.CollectableRadius;
-            _collectibleLayer = context.PhysicsSettings.CollectablePhysics.CollectableLayer;
+            _radius = context.PhysicsSettings.CollectiblePhysics.CollectibleRadius;
+            _collectibleLayer = context.PhysicsSettings.CollectiblePhysics.CollectibleLayer;
         }
 
         private void FixedUpdate()

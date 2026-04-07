@@ -1750,10 +1750,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2066d9bd0577f43a3853a5488c05199f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LS.Core.GameContext
-  _joystickInputProvider: {fileID: 907884373}
-  _characterMovementController: {fileID: 8868175438643931894}
   _upgradeSettings: {fileID: 11400000, guid: 9e433fa3fc0764d0186d4008306e154b, type: 2}
   _physicsSettings: {fileID: 11400000, guid: a56742727212c4560bd3ac8e4e6504f3, type: 2}
+  _economySettings: {fileID: 11400000, guid: dfb8615f2883546f69c0ae35be10aeee, type: 2}
 --- !u!1 &588406572
 GameObject:
   m_ObjectHideFlags: 0
@@ -2357,17 +2356,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a47f546fc70ec8428172694e78e4288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &907884373 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5128659066243007722, guid: 0d230cc8be529a542a08cb878ab14b18, type: 3}
-  m_PrefabInstance: {fileID: 907884370}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16188170819ab4eb8b1700a0d57b0854, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LS.Core.JoystickInputProvider
 --- !u!1 &949536626
 GameObject:
   m_ObjectHideFlags: 0
@@ -4240,17 +4228,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72b66afc47032401691a7fb39e59504f, type: 3}
---- !u!114 &8868175438643931894 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8099232742502358984, guid: 72b66afc47032401691a7fb39e59504f, type: 3}
-  m_PrefabInstance: {fileID: 8868175438643931892}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91aec91ca12fc4e1da7602e3bc282651, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LS.CharacterController.Physics.Controller.CharacterMovementController
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

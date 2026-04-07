@@ -2,33 +2,36 @@ using System;
 using LS.CharacterController.Physics.Core;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SurfacePhysicsSettings", menuName = "Physics/Data/SurfacePhysicsSettings")]
-public class SurfacePhysicsSettings : ScriptableObject
+namespace LS.CharacterController.Physics.Data
 {
-    [Serializable]
-    public class Mapping                                                                                                                                                
-    {                                   
-        public TerrainLayer TerrainLayer;                                                                                                                               
-        public SurfaceType SurfaceType;
-    }      
-        
-    public Mapping[] Mappings;                                                                                                                                          
-    public SurfaceType DefaultSurfaceType;
-    
-    public float SnowFrictionForce = 5f;                                                                                                                                        
-    public float IceFrictionForce  = 2.5f; 
-    public LayerMask GroundLayerMask;
-    
-    public SurfaceType Resolve(TerrainLayer layer)
+    [CreateAssetMenu(fileName = "SurfacePhysicsSettings", menuName = "Physics/Data/SurfacePhysicsSettings")]
+    public class SurfacePhysicsSettings : ScriptableObject
     {
-        for (int i = 0; i < Mappings.Length; i++)
+        [Serializable]
+        public class Mapping
         {
-            if (Mappings[i].TerrainLayer == layer)
+            public TerrainLayer TerrainLayer;
+            public SurfaceType SurfaceType;
+        }
+
+        public Mapping[] Mappings;
+        public SurfaceType DefaultSurfaceType;
+
+        public float SnowFrictionForce = 5f;
+        public float IceFrictionForce = 2.5f;
+        public LayerMask GroundLayerMask;
+
+        public SurfaceType Resolve(TerrainLayer layer)
+        {
+            for (int i = 0; i < Mappings.Length; i++)
             {
-                return Mappings[i].SurfaceType;                                                                                                                         
+                if (Mappings[i].TerrainLayer == layer)
+                {
+                    return Mappings[i].SurfaceType;
+                }
             }
-        }                                                                                                                     
-                                                                                                                                                                              
-        return DefaultSurfaceType;  
+
+            return DefaultSurfaceType;
+        }
     }
 }

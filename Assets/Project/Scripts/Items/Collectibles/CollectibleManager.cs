@@ -14,9 +14,6 @@ namespace LS.Items.Collectibles
         private BaseCollectible[] _allCollectibles;
         private readonly HashSet<(int resourceID, int itemID)> _collectedSetOnSession = new();
 
-        
-        private const string KeyPrefix = "Collectible_";
-
         public void Inject(IGameContext context)
         {
             _saveSystem = context.SaveSystem;
@@ -25,7 +22,7 @@ namespace LS.Items.Collectibles
         private void Awake()
         {
             _allCollectibles = GetComponentsInChildren<BaseCollectible>();
-            GameEvents.OnCollectibleCollected += HandleCollectable;
+            GameEvents.OnCollectibleCollected += HandleCollectible;
             GameEvents.OnSessionEnded += OnSessionEnded;
         }
 
@@ -36,11 +33,11 @@ namespace LS.Items.Collectibles
 
         private void OnDestroy()
         {
-            GameEvents.OnCollectibleCollected -= HandleCollectable;
+            GameEvents.OnCollectibleCollected -= HandleCollectible;
             GameEvents.OnSessionEnded -= OnSessionEnded;
         }
 
-        private void HandleCollectable(int resourceID, int itemID, int value)
+        private void HandleCollectible(int resourceID, int itemID, int value)
         {
             if (_saveSystem.IsCollectibleCollected(resourceID, itemID) || 
                 !_collectedSetOnSession.Add((resourceID, itemID))) return;     

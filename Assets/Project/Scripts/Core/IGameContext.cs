@@ -9,7 +9,7 @@ namespace LS.Core
     public interface IGameContext                                                                                                                                           
     {
         PhysicsSettings PhysicsSettings { get; }
-        
+        EconomySettings EconomySettings { get; }
         IUpgradeManager UpgradeManager { get; }       
         ISaveSystem SaveSystem { get; }
         

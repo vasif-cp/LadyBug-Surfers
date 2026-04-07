@@ -14,6 +14,7 @@ namespace LS.Core
         [Header("Data References")]
         [SerializeField] private UpgradeSettings _upgradeSettings;
         [SerializeField] private PhysicsSettings _physicsSettings;
+        [SerializeField] private EconomySettings _economySettings;
         
         private ServiceRegistry _serviceRegistry;
 
@@ -21,6 +22,7 @@ namespace LS.Core
         public IUpgradeManager UpgradeManager { get; private set; }
         public ISaveSystem SaveSystem { get; private set; }
         public PhysicsSettings PhysicsSettings { get; private set; }
+        public EconomySettings EconomySettings { get; private set; }
         
         public IInputProvider InputProvider { get; private set; }
         public ICharacterMovementController CharacterMovementController { get; private set;}
@@ -30,6 +32,7 @@ namespace LS.Core
             SaveSystem = new PlayerPrefsSaveSystem();
             UpgradeManager = new UpgradeManager(_upgradeSettings, SaveSystem);
             PhysicsSettings = _physicsSettings;
+            EconomySettings = _economySettings;
             
             _serviceRegistry = new ServiceRegistry();
             

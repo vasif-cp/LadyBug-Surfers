@@ -1,16 +1,22 @@
+using LS.Core;
 using LS.Events;
 using LS.Items.Collectibles;
 using UnityEngine;
 
 namespace LS.CharacterController.Physics
 {
-    public class CollectableDetector : MonoBehaviour
+    public class CollectableDetector : MonoBehaviour, IInjectable
     {
-        [Header("Detector Settings")]
-        [SerializeField] private float _radius = 3.0f;
-        [SerializeField] private LayerMask _collectibleLayer;
+        private float _radius = 3.0f;
+        private LayerMask _collectibleLayer;
         
-        private readonly Collider[] _hitBuffer = new Collider[10]; // pre-allocated, zero GC
+        private readonly Collider[] _hitBuffer = new Collider[10];
+
+        public void Inject(IGameContext context)
+        {
+            _radius = context.PhysicsSettings.CollectablePhysics.CollectableRadius;
+            _collectibleLayer = context.PhysicsSettings.CollectablePhysics.CollectableLayer;
+        }
 
         private void FixedUpdate()
         {

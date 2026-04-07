@@ -15,10 +15,10 @@ namespace LS.UI.View
         [SerializeField] private Button _upgradeButton;
         [SerializeField] private TMP_Text _upgradeButtonText; 
         
-        private UpgradeManager _upgradeManager;   
+        private IUpgradeManager _upgradeManager;   
         private UpgradeType _upgradeType;
         
-        public void Initialize(UpgradeManager upgradeManager, UpgradeType upgradeType)                                                                                                                                                                                                
+        public void Initialize(IUpgradeManager upgradeManager, UpgradeType upgradeType)                                                                                                                                                                                                
         {
             _upgradeManager = upgradeManager;      
             _upgradeType = upgradeType;

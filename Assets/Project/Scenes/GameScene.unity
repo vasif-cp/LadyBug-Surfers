@@ -531,6 +531,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 575328615}
   - {fileID: 1491187874}
   - {fileID: 588406573}
   - {fileID: 1105563925}
@@ -588,7 +589,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6043906ce087748f8a89d19d90c3ac38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LS.UI.View.MainMenuView
-  _metaGameController: {fileID: 588406574}
   _upgradeSlotPrefab: {fileID: 8259679098114007084, guid: 741ca2ef19e58412a94f059eeb47e514, type: 3}
   _slotsContainer: {fileID: 788974418}
 --- !u!225 &163148136
@@ -1706,6 +1706,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 493554326}
   m_CullTransparentMesh: 1
+--- !u!1 &575328614
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 575328615}
+  - component: {fileID: 575328616}
+  m_Layer: 0
+  m_Name: Game Context
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &575328615
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 575328614}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 158508800}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &575328616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 575328614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2066d9bd0577f43a3853a5488c05199f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LS.Core.GameContext
+  _joystickInputProvider: {fileID: 907884373}
+  _characterMovementController: {fileID: 8868175438643931894}
+  _upgradeSettings: {fileID: 11400000, guid: 9e433fa3fc0764d0186d4008306e154b, type: 2}
+  _physicsSettings: {fileID: 11400000, guid: a56742727212c4560bd3ac8e4e6504f3, type: 2}
 --- !u!1 &588406572
 GameObject:
   m_ObjectHideFlags: 0
@@ -1750,7 +1798,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9af81bc791ee4ca2a844370277603be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MetaGameController
-  _upgradeSettings: {fileID: 11400000, guid: 9e433fa3fc0764d0186d4008306e154b, type: 2}
 --- !u!1 &605091668
 GameObject:
   m_ObjectHideFlags: 0
@@ -1864,7 +1911,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f775dbfdc70d346ce94a1fb1ba949bf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LS.UI.View.DistanceView
-  _gameFlowController: {fileID: 1491187875}
   _distanceText: {fileID: 493554328}
 --- !u!225 &625121838
 CanvasGroup:
@@ -2311,6 +2357,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a47f546fc70ec8428172694e78e4288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &907884373 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5128659066243007722, guid: 0d230cc8be529a542a08cb878ab14b18, type: 3}
+  m_PrefabInstance: {fileID: 907884370}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16188170819ab4eb8b1700a0d57b0854, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LS.Core.JoystickInputProvider
 --- !u!1 &949536626
 GameObject:
   m_ObjectHideFlags: 0
@@ -2530,12 +2587,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14b26062811a4421687e4c7d303c7095, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LS.Items.Slingshot.SlingshotController
-  _physicsSettings: {fileID: 11400000, guid: a56742727212c4560bd3ac8e4e6504f3, type: 2}
-  _characterMovementController: {fileID: 8868175438643931894}
-  _joystick: {fileID: 907884372}
-  _bandLineRenderer: {fileID: 2030679071}
-  _characterTransform: {fileID: 1408858646}
-  _mainCamera: {fileID: 330585545}
 --- !u!1 &1024393944
 GameObject:
   m_ObjectHideFlags: 0
@@ -2911,11 +2962,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96156d410dc264a319c8b18082ba394a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LS.Gameplay.GameFlowController
-  _physicsSettings: {fileID: 11400000, guid: a56742727212c4560bd3ac8e4e6504f3, type: 2}
-  _characterMovementController: {fileID: 8868175438643931894}
-  _metaGameController: {fileID: 588406574}
-  _slingshotController: {fileID: 1005837788}
-  _characterTransform: {fileID: 1408858646}
 --- !u!1 &1580653381
 GameObject:
   m_ObjectHideFlags: 0

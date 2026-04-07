@@ -12,28 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53d94006bd7034d1887e2c82a4729fbe, type: 3}
   m_Name: PhysicsSettings
   m_EditorClassIdentifier: Assembly-CSharp::Core.CharacterController.Physics.Data.PhysicsSettings
-  SteerForce: 10
-  SteerSpeedReference: 5
-  GroundCheckDistance: 2
-  ObstacleSlowFactor: 0.5
-  StopSpeedThreshold: 0.01
-  LaunchConfirmThreshold: 2
-  GroundLayerMask:
-    serializedVersion: 2
-    m_Bits: 64
-  MaxPullDistance: 10
-  LaunchPullExponent: 2
-  MinForce: 5
-  MaxForce: 30
-  MaxSpeed: 40
-  SlopeGravityMultiplier: 1
-  GroundStickForce: 8
-  AirGravityStickForce: 5
-  AirDragForce: 0.2
-  HighSpeedSteerDamping: 0.05
-  VisualAlignSpeed: 12
-  MaxBankAngle: 20
-  ForwardInterpolationSpeed: 10
-  BackwardInterpolationSpeed: 5
-  SnowFrictionForce: 0.3
-  IceFrictionForce: 0.1
+  _characterPhysics: {fileID: 11400000, guid: 3e34dd8b33dbf455e9425cbdb7356d2b, type: 2}
+  _slingshotPhysics: {fileID: 11400000, guid: b60f89cc6a0fc4a57bcfe84c9d6a9476, type: 2}
+  _surfacePhysics: {fileID: 11400000, guid: 0a21bc153caf94ca5a991e7427d62dfd, type: 2}
+  _collectablePhysics: {fileID: 11400000, guid: 87358b0a49ddb464fa9d72ed33162864, type: 2}

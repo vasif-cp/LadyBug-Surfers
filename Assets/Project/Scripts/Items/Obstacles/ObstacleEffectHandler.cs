@@ -1,20 +1,26 @@
 using System;
 using LS.CharacterController.Core;
 using LS.CharacterController.Physics.Data;
+using LS.Core;
 using LS.Events;
 using UnityEngine;
 
 namespace LS.Items.Obstacles
 {
-    public class ObstacleEffectHandler : MonoBehaviour
+    public class ObstacleEffectHandler : MonoBehaviour, IInjectable
     {
-        [SerializeField] private PhysicsSettings _physicsSettings;
+        private ICharacterMovementController _characterMovementController;
+        private PhysicsSettings _physicsSettings;
+        
 
-        private CharacterMovementController _characterMovementController;
+        public void Inject(IGameContext context)
+        {
+            _physicsSettings = context.PhysicsSettings;
+            _characterMovementController = context.CharacterMovementController;
+        }
 
         private void Awake()
         {
-            _characterMovementController = GetComponent<CharacterMovementController>();
             GameEvents.OnObstacleHit += HandleObstacleHit;
         }
 
@@ -28,7 +34,7 @@ namespace LS.Items.Obstacles
             switch (type)
             {
                 case ObstacleType.SlowingDown:
-                    _characterMovementController.ApplySlowdown(_physicsSettings.ObstacleSlowFactor);
+                    _characterMovementController.ApplySlowdown(_physicsSettings.CharacterPhysics.ObstacleSlowFactor);
                     break;
                 case ObstacleType.Stop:
                     _characterMovementController.ApplyStop();

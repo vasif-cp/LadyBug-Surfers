@@ -7,7 +7,7 @@ namespace LS.UI.View
     public abstract class UIViewBase : MonoBehaviour
     {
         private CanvasGroup _canvasGroup;
-        protected bool _isActive;
+        private Tween _fadeTween;
 
         private const float FadeDuration = 0.25f;
 
@@ -23,8 +23,8 @@ namespace LS.UI.View
 
         public virtual void Show()
         {
-            _isActive = true;
-            CanvasGroup.DOFade(1.0f, FadeDuration).OnComplete(() =>
+            _fadeTween?.Kill();
+            _fadeTween = CanvasGroup.DOFade(1.0f, FadeDuration).OnComplete(() =>
             {
                 CanvasGroup.interactable = true;
                 CanvasGroup.blocksRaycasts = true;
@@ -33,8 +33,8 @@ namespace LS.UI.View
 
         public virtual void Hide()
         {
-            _isActive = false;
-            CanvasGroup.DOFade(0.0f, FadeDuration).OnComplete(() =>
+            _fadeTween?.Kill();
+            _fadeTween = CanvasGroup.DOFade(0.0f, FadeDuration).OnComplete(() =>
             {
                 CanvasGroup.interactable = false;
                 CanvasGroup.blocksRaycasts = false;

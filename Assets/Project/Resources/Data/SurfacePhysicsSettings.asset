@@ -9,12 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46f4bb7e4527b4637beafcfe7b77e899, type: 3}
-  m_Name: TerrainSurfaceSettings
-  m_EditorClassIdentifier: Assembly-CSharp::LS.CharacterController.Physics.Data.TerrainSurfaceSettings
+  m_Script: {fileID: 11500000, guid: 608b2bb6d2e2b4699bc1c812e625c105, type: 3}
+  m_Name: SurfacePhysicsSettings
+  m_EditorClassIdentifier: Assembly-CSharp::SurfacePhysicsSettings
   Mappings:
   - TerrainLayer: {fileID: 8574412962073106934, guid: 22e215ac104f94c6b84885ae76c068f2, type: 2}
     SurfaceType: 0
   - TerrainLayer: {fileID: 8574412962073106934, guid: d5d811febd9f046c0965d0deee1152eb, type: 2}
     SurfaceType: 1
   DefaultSurfaceType: 0
+  SnowFrictionForce: 5
+  IceFrictionForce: 2.5
+  GroundLayerMask:
+    serializedVersion: 2
+    m_Bits: 0

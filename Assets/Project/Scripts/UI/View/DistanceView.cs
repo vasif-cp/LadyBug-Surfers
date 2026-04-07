@@ -8,23 +8,33 @@ namespace LS.UI.View
 {
     public class DistanceView : UIViewBase
     {
-        [SerializeField] private GameFlowController _gameFlowController;
         [SerializeField] private TMP_Text _distanceText;
+
+        private GameplaySession _session;
 
         private void Awake()
         {
             GameEvents.OnPullEnded += Show;
+            GameEvents.OnSessionStarted += OnSessionStarted;
+            GameEvents.OnPullUpdated += OnPullUpdated;                                                                                                                     
         }
 
         private void OnDestroy()
         {
             GameEvents.OnPullEnded -= Show;
+            GameEvents.OnSessionStarted -= OnSessionStarted;
+            GameEvents.OnPullUpdated -= OnPullUpdated;                                                                                                                     
         }
 
-        private void LateUpdate()
+        private void OnPullUpdated(float value)
         {
-            if (!_isActive || !_gameFlowController.GameplaySession.IsActive) return;
-            _distanceText.SetText("{0}m", (int)_gameFlowController.GameplaySession.TravelledDistance);
+            if (_session == null || !_session.IsActive) return;
+            _distanceText.SetText("{0}m", (int)_session.TravelledDistance);
+        }
+
+        private void OnSessionStarted(GameplaySession session)
+        {
+            _session = session;
         }
     }
 }

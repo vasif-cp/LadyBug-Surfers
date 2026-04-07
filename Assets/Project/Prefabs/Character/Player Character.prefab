@@ -135,8 +135,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f75f224eac214d5f8b93e59fbc533f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LS.CharacterController.Physics.GroundDetector
-  _physicsSettings: {fileID: 11400000, guid: a56742727212c4560bd3ac8e4e6504f3, type: 2}
-  _terrainSurfaceSettings: {fileID: 11400000, guid: 31a2961f063ad4f49bf7552683a1949c, type: 2}
 --- !u!114 &8099232742502358984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,8 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91aec91ca12fc4e1da7602e3bc282651, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LS.CharacterController.Physics.Controller.CharacterMovementController
-  _physicsSettings: {fileID: 11400000, guid: a56742727212c4560bd3ac8e4e6504f3, type: 2}
-  _visualModelTransform: {fileID: 0}
+  _visualModelTransform: {fileID: 1806473045471551732}
 --- !u!114 &4452684558978988173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,7 +189,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6343796fb02154979b08f4cf546e0517, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LS.Items.Obstacles.ObstacleEffectHandler
-  _physicsSettings: {fileID: 11400000, guid: a56742727212c4560bd3ac8e4e6504f3, type: 2}
 --- !u!1 &5737623109467461896
 GameObject:
   m_ObjectHideFlags: 0

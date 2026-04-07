@@ -1,6 +1,8 @@
 using System;
 using LS.CharacterController.Physics.Data;
 using LS.CharacterController.Physics.Core;
+using LS.Core;
+using LS.Events;
 using LS.Meta;
 using UnityEngine;
 
@@ -8,31 +10,49 @@ namespace LS.CharacterController.Core
 {
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(GroundDetector))]
-    public class CharacterMovementController : MonoBehaviour
+    public class CharacterMovementController : MonoBehaviour, IInjectable, ICharacterMovementController, IContextService
     {
-        [Header("Data Dependencies")]
-        [SerializeField] private PhysicsSettings _physicsSettings;
-        
         [Header("Visual Dependencies")]
         [SerializeField] private Transform _visualModelTransform;
         
         private Rigidbody _rigidbody;
         private GroundDetector _groundDetector;
         private CoreSledPhysics _coreSledPhysics;
+        private PhysicsSettings _physicsSettings;
         
         private float _steerInput;
         private bool _launchRequested;
-        
+
+        public Transform CharacterTransform => transform;
         public bool HasLaunched => _coreSledPhysics.HasLaunched;
-        public Vector3 Velocity => _rigidbody.linearVelocity;  
+        public Vector3 Velocity => _rigidbody.linearVelocity;
+
+        public void Inject(IGameContext context)
+        {
+            _physicsSettings = context.PhysicsSettings;
+        }
+        
+        public void Register(ServiceRegistry registry)
+        {
+            registry.Register<ICharacterMovementController>(this);
+        }
 
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
             _groundDetector = GetComponent<GroundDetector>();
             _coreSledPhysics = new CoreSledPhysics(_physicsSettings);
+
+            GameEvents.OnUpgradeModifiersApplied += ApplyUpgradeModifiers;
+            GameEvents.OnLaunchRequested += RequestLaunchWithImpulse;
         }
-        
+
+        private void OnDestroy()
+        {
+            GameEvents.OnUpgradeModifiersApplied -= ApplyUpgradeModifiers;
+            GameEvents.OnLaunchRequested -= RequestLaunchWithImpulse;
+        }
+
         private void FixedUpdate()
         {
             if (!_coreSledPhysics.HasLaunched)
@@ -51,13 +71,13 @@ namespace LS.CharacterController.Core
                 Vector3 forward = Vector3.ProjectOnPlane(_rigidbody.linearVelocity, ground.SurfaceNormal).normalized;
                 Quaternion slopeRotation = Quaternion.LookRotation(forward, ground.SurfaceNormal);
 
-                float bankAngle = -_steerInput * _physicsSettings.MaxBankAngle;
+                float bankAngle = -_steerInput * _physicsSettings.SlingshotPhysics.MaxBankAngle;
                 Quaternion bankRotation = Quaternion.AngleAxis(bankAngle, forward);
 
                 Quaternion targetRotation = bankRotation * slopeRotation;
                 _visualModelTransform.rotation = Quaternion.Slerp(
                     _visualModelTransform.rotation, targetRotation,
-                    Time.fixedDeltaTime * _physicsSettings.VisualAlignSpeed);
+                    Time.fixedDeltaTime * _physicsSettings.SlingshotPhysics.VisualAlignSpeed);
             }
 
         }
@@ -76,12 +96,6 @@ namespace LS.CharacterController.Core
             _rigidbody.AddForce(impulse, ForceMode.VelocityChange);
         }
         
-        public void RequestLaunch()
-        {
-            if (_coreSledPhysics.HasLaunched) return;
-            _launchRequested = true;
-        }
-        
         public void RequestLaunchWithImpulse(Vector3 impulse)
         {
             if (_coreSledPhysics.HasLaunched) return;
@@ -90,7 +104,7 @@ namespace LS.CharacterController.Core
             _rigidbody.AddForce(impulse, ForceMode.VelocityChange);
         }
         
-        public void ApplyUpgradeModifiers(in UpgradeModifiers modifiers)                                                                                                            
+        public void ApplyUpgradeModifiers(UpgradeModifiers modifiers)                                                                                                            
         {                                                               
             _coreSledPhysics.ApplyModifiers(modifiers.SteeringBonus, modifiers.SpeedBoostForceBonus);
         }

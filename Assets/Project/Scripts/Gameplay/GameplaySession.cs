@@ -7,6 +7,7 @@ namespace LS.Gameplay
     public class GameplaySession
     {
         private UpgradeModifiers _upgradeModifiers;
+        private ISaveSystem _saveSystem;
         private Vector3 _startPosition;
         private Transform _character;
         
@@ -16,11 +17,12 @@ namespace LS.Gameplay
         public bool IsActive { get; private set; }
         public bool IsBestScore { get; private set; }
         
-        public GameplaySession(UpgradeModifiers upgradeModifiers, Transform character)
+        public GameplaySession(UpgradeModifiers upgradeModifiers, Transform character, ISaveSystem saveSystem)
         {
             _character = character;
             _startPosition = character.position;
             _upgradeModifiers = upgradeModifiers;
+            _saveSystem = saveSystem;
         }
 
         public void OnStart()
@@ -63,10 +65,10 @@ namespace LS.Gameplay
 
         private void CheckPossibleBestScore()
         {
-            if (TravelledDistance <= SaveSystem.BestDistance) return;
+            if (TravelledDistance <= _saveSystem.BestDistance) return;
 
             IsBestScore = true;
-            SaveSystem.BestDistance = (int) TravelledDistance;
+            _saveSystem.BestDistance = TravelledDistance;
 
         }
     }

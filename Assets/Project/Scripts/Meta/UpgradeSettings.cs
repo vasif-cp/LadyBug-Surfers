@@ -7,5 +7,6 @@ namespace LS.Meta
     {
         [SerializeField] private UpgradeDefinition[] Upgrades = new UpgradeDefinition[4];
         public UpgradeDefinition Get(UpgradeType type) => Upgrades[(int)type];
+        public int UpgradeCount => Upgrades.Length;
     }
 }

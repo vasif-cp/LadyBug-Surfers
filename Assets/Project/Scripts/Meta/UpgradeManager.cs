@@ -4,18 +4,20 @@ using UnityEngine;
 
 namespace LS.Meta
 {
-    public class UpgradeManager
+    public class UpgradeManager : IUpgradeManager
     {
+        private ISaveSystem _saveSystem;
         private readonly UpgradeSettings _settings;
         private readonly int[] _levels;
         
-        public UpgradeManager(UpgradeSettings settings)
+        public UpgradeManager(UpgradeSettings settings, ISaveSystem saveSystem)
         {
             _settings = settings;
+            _saveSystem = saveSystem;
                                                                                                                                                                               
-            _levels = new int[4];
+            _levels = new int[_settings.UpgradeCount];
             for (int i = 0; i < _levels.Length; i++)                                                                                                                        
-                _levels[i] = SaveSystem.LoadUpgradeLevel((UpgradeType)i);
+                _levels[i] = _saveSystem.LoadUpgradeLevel((UpgradeType)i);
         }
         
         public int GetLevel(UpgradeType type) => _levels[(int)type];                                                                                                        
@@ -36,12 +38,12 @@ namespace LS.Meta
         public bool TryPurchase(UpgradeType type)
         {
             if (IsMaxLevel(type)) return false;      
-            if (!SaveSystem.TryToSpendCoins(GetNextPrice(type))) return false;
+            if (!_saveSystem.TryToSpendCoins(GetNextPrice(type))) return false;
                                                                                                                                                                               
             _levels[(int)type]++;
-            SaveSystem.SaveUpgradeLevel(type, _levels[(int)type]);                                                                                                          
+            _saveSystem.SaveUpgradeLevel(type, _levels[(int)type]);                                                                                                          
             GameEvents.OnUpgradePurchased?.Invoke(type);
-            GameEvents.OnCoinsBalanceUpdated?.Invoke(SaveSystem.LoadCoins());                                                                                                        
+            GameEvents.OnCoinsBalanceUpdated?.Invoke(_saveSystem.LoadCoins());                                                                                                        
             return true;                                                                                                                                                    
         }
         

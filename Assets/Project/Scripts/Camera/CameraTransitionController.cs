@@ -36,7 +36,7 @@ namespace LS.Camera
         private void OnDestroy()
         {
             _transitionSequence?.Kill();
-            GameEvents.OnGameStartRequested = OnGameStartRequested;
+            GameEvents.OnGameStartRequested -= OnGameStartRequested;
         }
 
         private void OnGameStartRequested()

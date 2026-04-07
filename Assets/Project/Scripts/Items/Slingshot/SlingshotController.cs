@@ -1,26 +1,23 @@
 using System;
 using LS.CharacterController.Core;
 using LS.CharacterController.Physics.Data;
+using LS.Core;
 using LS.Events;
 using LS.Meta;
 using UnityEngine;
 
 namespace LS.Items.Slingshot
 {
-    public class SlingshotController : MonoBehaviour
+    public class SlingshotController : MonoBehaviour, IInjectable
     {
-        [Header("Data Dependencies")]
-        [SerializeField] private PhysicsSettings _physicsSettings;
-        
-        [Header("Scene Dependencies")]
-        [SerializeField] private CharacterMovementController _characterMovementController;
-        [SerializeField] private FloatingJoystick _joystick;
-        [SerializeField] private LineRenderer _bandLineRenderer;
-        [SerializeField] private Transform _characterTransform;
-        [SerializeField] private UnityEngine.Camera _mainCamera;
-        
+        private IInputProvider _inputProvider;
+        private Transform _characterTransform;
         
         private SlingshotEngine _engine;
+        private PhysicsSettings _physicsSettings;
+        
+        private LineRenderer _bandLineRenderer;
+        
         private Vector3 _restPosition;
         private Vector3 _currentCharacterPosition;
         private float _launchPowerBonus;
@@ -30,16 +27,27 @@ namespace LS.Items.Slingshot
         private const float PullStartThreshold = 0.2f;
         private const float PullUpdateThreshold = 0.01f;
 
+        public void Inject(IGameContext context)
+        {
+            _physicsSettings = context.PhysicsSettings;
+            _inputProvider = context.InputProvider;
+            _characterTransform = context.CharacterMovementController.CharacterTransform;
+        }
+
         private void Awake()
         {
             _engine = new SlingshotEngine(_physicsSettings);
             _isActive = false;
-            
+
+            _bandLineRenderer = GetComponentInChildren<LineRenderer>();
+
+            GameEvents.OnUpgradeModifiersApplied += ApplyUpgradeModifiers;
             GameEvents.OnCameraTransitionComplete += OnGameStartRequested;
         }
 
         private void OnDestroy()
         {
+            GameEvents.OnUpgradeModifiersApplied -= ApplyUpgradeModifiers;
             GameEvents.OnCameraTransitionComplete -= OnGameStartRequested;
         }
 
@@ -65,7 +73,7 @@ namespace LS.Items.Slingshot
         
         private void HandleInput()
         {
-            float pullInput = Mathf.Clamp01(-_joystick.Vertical); 
+            float pullInput = Mathf.Clamp01(-_inputProvider.VerticalInput); 
                                                                                                                                                                               
             if (!_engine.IsPulling)             
             {
@@ -94,7 +102,7 @@ namespace LS.Items.Slingshot
         private void UpdatePull(float pullAmount)                                                                                                                       
         {               
             Vector3 simulatedWorldPos = _restPosition
-                                        + (-_characterTransform.forward * pullAmount * _physicsSettings.MaxPullDistance);
+                                        + (-_characterTransform.forward * pullAmount * _physicsSettings.SlingshotPhysics.MaxPullDistance);
 
             Vector3 targetPos = _engine.UpdatePull(simulatedWorldPos, _characterTransform.forward);                                                                                 
             _currentCharacterPosition = targetPos;
@@ -116,8 +124,7 @@ namespace LS.Items.Slingshot
             _characterTransform.position = _restPosition;
             _currentCharacterPosition = _restPosition;
  
-            _characterMovementController.RequestLaunchWithImpulse(impulse);
-            
+            GameEvents.OnLaunchRequested?.Invoke(impulse);
             GameEvents.OnPullEnded?.Invoke();
         }
         
@@ -129,10 +136,10 @@ namespace LS.Items.Slingshot
 
         private bool IsJoystickInputActive()
         {
-            return Mathf.Abs(_joystick.Vertical) > 0.0f;
+            return Mathf.Abs(_inputProvider.VerticalInput) > 0.0f;
         }
         
-        public void ApplyUpgradeModifiers(in UpgradeModifiers modifiers)
+        public void ApplyUpgradeModifiers(UpgradeModifiers modifiers)
         {                                                               
             _launchPowerBonus = modifiers.LaunchPowerBonus;
         }
@@ -141,7 +148,7 @@ namespace LS.Items.Slingshot
         {
             if (!IsJoystickInputActive()) return;
             
-            float speed = _engine.IsPulling ? _physicsSettings.ForwardInterpolationSpeed : _physicsSettings.BackwardInterpolationSpeed;
+            float speed = _engine.IsPulling ? _physicsSettings.SlingshotPhysics.ForwardInterpolationSpeed : _physicsSettings.SlingshotPhysics.BackwardInterpolationSpeed;
 
             _characterTransform.position = Vector3.Lerp(_characterTransform.position, _currentCharacterPosition,
                 Time.deltaTime * speed);
@@ -157,19 +164,6 @@ namespace LS.Items.Slingshot
             Vector3 middlePoint = _characterTransform.position + behindOffset;
 
             _bandLineRenderer.SetPosition(1, middlePoint);
-        }
-        
-        private Vector3 ScreenToGroundPlane(Vector2 screenPos)
-        {
-            Ray ray = _mainCamera.ScreenPointToRay(screenPos);
-            Plane groundPlane = new Plane(Vector3.up, new Vector3(0f, 0.0f, 0f));
- 
-            if (groundPlane.Raycast(ray, out float distance))
-            {
-                return ray.GetPoint(distance);
-            }
- 
-            return ray.GetPoint(_physicsSettings.MaxPullDistance);
         }
         
         private float GetLaunchMultiplier()

@@ -1,25 +1,35 @@
 using System;
 using LS.CharacterController.Core;
 using LS.CharacterController.Physics.Data;
+using LS.Core;
 using LS.Events;
 using LS.Items.Slingshot;
 using LS.Meta;
+using LS.Save;
 using UnityEngine;
 
 namespace LS.Gameplay
 {
-    public class GameFlowController : MonoBehaviour
+    public class GameFlowController : MonoBehaviour, IInjectable
     {
-        [SerializeField] private PhysicsSettings _physicsSettings;
-        [SerializeField] private CharacterMovementController _characterMovementController;
-        [SerializeField] private MetaGameController _metaGameController;                                                                                                            
-        [SerializeField] private SlingshotController _slingshotController;   
-        [SerializeField] private Transform _characterTransform;
+        private ICharacterMovementController _characterMovementController;
+        private Transform _characterTransform;
         
+        private IUpgradeManager _upgradeManager;
+        private ISaveSystem _saveSystem;
         private GameplaySession _gameplaySession;
+        private PhysicsSettings _physicsSettings;
         private bool _launchConfirmed;
-        
-        public GameplaySession GameplaySession => _gameplaySession;
+
+        public void Inject(IGameContext context)
+        {
+            _upgradeManager = context.UpgradeManager;
+            _saveSystem = context.SaveSystem;
+            _physicsSettings = context.PhysicsSettings;
+
+            _characterMovementController = context.CharacterMovementController;
+            _characterTransform = _characterMovementController.CharacterTransform;
+        }
 
         private void Awake()
         {
@@ -52,12 +62,14 @@ namespace LS.Gameplay
 
         private void ApplyUpgradeModifiers()
         {
-            var modifiers = _metaGameController.UpgradeManager.GetModifiers();
-            _characterMovementController.ApplyUpgradeModifiers(modifiers);    
-            _slingshotController.ApplyUpgradeModifiers(modifiers); 
+            var modifiers = _upgradeManager.GetModifiers();
+            GameEvents.OnUpgradeModifiersApplied?.Invoke(modifiers);
             
-            _gameplaySession = new GameplaySession(modifiers, _characterTransform);
-            _gameplaySession.OnStart();   
+            _gameplaySession = new GameplaySession(modifiers, _characterTransform, _saveSystem);
+            _gameplaySession.OnStart();  
+            
+            GameEvents.OnSessionStarted?.Invoke(_gameplaySession); 
+
         }
 
         private void CheckSessionEnd()
@@ -68,12 +80,12 @@ namespace LS.Gameplay
 
             if (!_launchConfirmed)
             {
-                if (sqrSpeed >= _physicsSettings.LaunchConfirmThreshold)
+                if (sqrSpeed >= _physicsSettings.CharacterPhysics.LaunchConfirmThreshold)
                     _launchConfirmed = true;
                 return;
             }
 
-            if (sqrSpeed > _physicsSettings.StopSpeedThreshold) return;
+            if (sqrSpeed > _physicsSettings.CharacterPhysics.StopSpeedThreshold) return;
             
             _gameplaySession.OnEnd();
             GameEvents.OnSessionEnded?.Invoke(_gameplaySession);

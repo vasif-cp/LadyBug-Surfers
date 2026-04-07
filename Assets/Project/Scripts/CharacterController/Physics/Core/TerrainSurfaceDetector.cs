@@ -5,14 +5,14 @@ namespace LS.CharacterController.Physics.Core
 {
     public class TerrainSurfaceDetector
     {
-        private readonly TerrainSurfaceSettings _settings;
+        private readonly SurfacePhysicsSettings _settings;
 
         private Vector3 _lastSampledPosition;
         private SurfaceType _cachedSurfaceType;
         
         private const float ResampleThreshold = 0.05f; 
         
-        public TerrainSurfaceDetector(TerrainSurfaceSettings settings)
+        public TerrainSurfaceDetector(SurfacePhysicsSettings settings)
         {                                                                                                                                                                   
             _settings = settings;                                                                                                                                               
             _cachedSurfaceType = _settings.DefaultSurfaceType;

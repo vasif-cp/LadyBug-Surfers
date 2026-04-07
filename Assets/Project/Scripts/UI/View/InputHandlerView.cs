@@ -15,8 +15,8 @@ namespace LS.UI.View
 
         private void OnDestroy()
         {
-            GameEvents.OnCameraTransitionComplete += Show;
-            GameEvents.OnSessionEnded += OnSessionEnded;
+            GameEvents.OnCameraTransitionComplete -= Show;
+            GameEvents.OnSessionEnded -= OnSessionEnded;
         }
 
         private void OnSessionEnded(GameplaySession gameplaySession)

@@ -6,15 +6,21 @@ using UnityEngine;
 
 namespace LS.Events
 {
-    public class GameEvents
+    public static class GameEvents
     {
         public static Action OnGameStartRequested;
         public static Action OnCameraTransitionComplete;
         
+        public static Action<GameplaySession> OnSessionStarted;                                                                                                                     
+        public static Action<GameplaySession> OnSessionEnded;
+        
         public static Action OnPullStarted;
         public static Action<float> OnPullUpdated;
         public static Action OnPullEnded;
+
+        public static Action<Vector3> OnLaunchRequested;
         
+        public static Action<UpgradeModifiers> OnUpgradeModifiersApplied;
         public static Action<UpgradeType> OnUpgradePurchased;
 
         
@@ -23,7 +29,5 @@ namespace LS.Events
         public static Action<int> OnCoinsBalanceUpdated;
         
         public static Action<ObstacleType> OnObstacleHit;
-
-        public static Action<GameplaySession> OnSessionEnded;
     }
 }

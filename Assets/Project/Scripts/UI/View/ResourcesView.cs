@@ -1,3 +1,4 @@
+using LS.Core;
 using LS.Events;
 using LS.Gameplay;
 using LS.Save;
@@ -6,10 +7,17 @@ using UnityEngine;
 
 namespace LS.UI.View
 {
-    public class ResourcesView : UIViewBase
+    public class ResourcesView : UIViewBase, IInjectable
     {
         [SerializeField] private TMP_Text _coinsText;
         
+        private ISaveSystem _saveSystem;
+
+        public void Inject(IGameContext context)
+        {
+            _saveSystem = context.SaveSystem;                                                                                                                             
+        }
+
         private void Awake()
         {
             GameEvents.OnSessionEnded += OnSessionEnded;
@@ -26,7 +34,7 @@ namespace LS.UI.View
                                                                                                                                                                               
         private void Start()
         {
-            Refresh(SaveSystem.LoadCoins());
+            Refresh(_saveSystem.LoadCoins());
             Show();
         }
 

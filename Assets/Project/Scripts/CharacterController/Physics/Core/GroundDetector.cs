@@ -1,26 +1,30 @@
 using UnityEngine;
 using LS.CharacterController.Physics.Data;
+using LS.Core;
 
 namespace LS.CharacterController.Physics.Core
 {
-    public class GroundDetector : MonoBehaviour
+    public class GroundDetector : MonoBehaviour, IInjectable
     {
-        [SerializeField] private PhysicsSettings _physicsSettings;
-        [SerializeField] private TerrainSurfaceSettings _terrainSurfaceSettings;
-        
         private Transform _rayOrigin;
         private GroundInfo _currentGround;
         private TerrainSurfaceDetector _surfaceDetector; 
-        
+        private PhysicsSettings _physicsSettings;
+
+        public void Inject(IGameContext context)
+        {
+            _physicsSettings = context.PhysicsSettings;
+        }
+
         private void Awake()
         {
             _rayOrigin = transform;
-            _surfaceDetector = new TerrainSurfaceDetector(_terrainSurfaceSettings);
+            _surfaceDetector = new TerrainSurfaceDetector(_physicsSettings.SurfacePhysics);
         }
         
         public GroundInfo DetectGround()
         {
-            if (UnityEngine.Physics.Raycast(_rayOrigin.position, Vector3.down, out RaycastHit hit, _physicsSettings.GroundCheckDistance, _physicsSettings.GroundLayerMask))
+            if (UnityEngine.Physics.Raycast(_rayOrigin.position, Vector3.down, out RaycastHit hit, _physicsSettings.CharacterPhysics.GroundCheckDistance, _physicsSettings.SurfacePhysics.GroundLayerMask))
             {
                 _currentGround = new GroundInfo
                 {

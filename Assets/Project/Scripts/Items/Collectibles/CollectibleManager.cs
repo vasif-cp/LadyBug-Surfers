@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using LS.Core;
 using LS.Events;
 using LS.Gameplay;
 using LS.Save;
@@ -7,13 +8,19 @@ using UnityEngine;
 
 namespace LS.Items.Collectibles
 {
-    public class CollectibleManager : MonoBehaviour
+    public class CollectibleManager : MonoBehaviour, IInjectable
     {
+        private ISaveSystem _saveSystem;
         private BaseCollectible[] _allCollectibles;
         private readonly HashSet<(int resourceID, int itemID)> _collectedSetOnSession = new();
 
         
         private const string KeyPrefix = "Collectible_";
+
+        public void Inject(IGameContext context)
+        {
+            _saveSystem = context.SaveSystem;
+        }
 
         private void Awake()
         {
@@ -35,7 +42,7 @@ namespace LS.Items.Collectibles
 
         private void HandleCollectable(int resourceID, int itemID, int value)
         {
-            if (SaveSystem.IsCollectibleCollected(resourceID, itemID) || 
+            if (_saveSystem.IsCollectibleCollected(resourceID, itemID) || 
                 !_collectedSetOnSession.Add((resourceID, itemID))) return;     
                                                                                                                                                                               
             for (int i = 0; i < _allCollectibles.Length; i++)
@@ -50,8 +57,10 @@ namespace LS.Items.Collectibles
         
         private void OnSessionEnded(GameplaySession gameplaySession)                                                                                                                
         {
-            foreach (var (resourceID, itemID) in _collectedSetOnSession)                                                                                                         
-                SaveSystem.SaveCollectible(resourceID, itemID);
+            foreach (var (resourceID, itemID) in _collectedSetOnSession)
+            {
+                _saveSystem.SaveCollectible(resourceID, itemID);
+            }
             
             _collectedSetOnSession.Clear();
         }                                                                                                                                                                   
@@ -62,7 +71,9 @@ namespace LS.Items.Collectibles
         {
             for (int i = 0; i < _allCollectibles.Length; i++)
             {
-                _allCollectibles[i].gameObject.SetActive(!SaveSystem.IsCollectibleCollected(_allCollectibles[i].ResourceID, _allCollectibles[i].UniqueId));
+                bool isEnabled =
+                    !_saveSystem.IsCollectibleCollected(_allCollectibles[i].ResourceID, _allCollectibles[i].UniqueId);
+                _allCollectibles[i].gameObject.SetActive(isEnabled);
             }
         }
     }

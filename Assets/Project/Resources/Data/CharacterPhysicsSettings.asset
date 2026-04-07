@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46bd944a45cb2434ca55db473a759aca, type: 3}
+  m_Name: CharacterPhysicsSettings
+  m_EditorClassIdentifier: Assembly-CSharp::LS.CharacterController.Physics.Data.CharacterPhysicsSettings
+  SteerForce: 10
+  SteerSpeedReference: 5
+  GroundCheckDistance: 2
+  ObstacleSlowFactor: 0.5
+  StopSpeedThreshold: 0.25
+  LaunchConfirmThreshold: 2

@@ -50,10 +50,10 @@ namespace LS.CharacterController.Physics.Core
             Vector3 slopeForward = Vector3.ProjectOnPlane(forwardReference, ground.SurfaceNormal).normalized;
             Vector3 slopeRight   = Vector3.Cross(ground.SurfaceNormal, slopeForward).normalized;
 
-            float steerForce = (_physicsSettings.SteerForce + _steeringBonus) * steerInput;
+            float steerForce = (_physicsSettings.CharacterPhysics.SteerForce + _steeringBonus) * steerInput;
 
-            float speedFactor     = Mathf.Clamp01(_currentSpeed / _physicsSettings.SteerSpeedReference);
-            float highSpeedDampen = 1f / (1f + _currentSpeed * _physicsSettings.HighSpeedSteerDamping);
+            float speedFactor     = Mathf.Clamp01(_currentSpeed / _physicsSettings.CharacterPhysics.SteerSpeedReference);
+            float highSpeedDampen = 1f / (1f + _currentSpeed * _physicsSettings.SlingshotPhysics.HighSpeedSteerDamping);
 
             return slopeRight * steerForce * speedFactor * highSpeedDampen;
 
@@ -64,8 +64,8 @@ namespace LS.CharacterController.Physics.Core
             if (!ground.IsGrounded || _currentVelocity.sqrMagnitude < 0.1f) return Vector3.zero;                                                                                    
                                                                                                                                                                               
             float friction = ground.SurfaceType == SurfaceType.Ice
-                ? _physicsSettings.IceFrictionForce                                                                                                                                 
-                : _physicsSettings.SnowFrictionForce;
+                ? _physicsSettings.SurfacePhysics.IceFrictionForce                                                                                                                                 
+                : _physicsSettings.SurfacePhysics.SnowFrictionForce;
                                                                                                                                                                               
             return -_currentVelocity * friction;
         }    
@@ -74,25 +74,25 @@ namespace LS.CharacterController.Physics.Core
         {
             if (!ground.IsGrounded) return Vector3.zero;
             return Vector3.ProjectOnPlane(UnityEngine.Physics.gravity, ground.SurfaceNormal)
-                   * _physicsSettings.SlopeGravityMultiplier;
+                   * _physicsSettings.SlingshotPhysics.SlopeGravityMultiplier;
         }
         
         private Vector3 CalculateGroundStickForce(GroundInfo ground)
         {
             if (!ground.IsGrounded) return Vector3.zero;
-            return -ground.SurfaceNormal * _physicsSettings.GroundStickForce;
+            return -ground.SurfaceNormal * _physicsSettings.SlingshotPhysics.GroundStickForce;
         }
         
         private Vector3 CalculateAirGravity(GroundInfo ground)
         {                                                                                                                                                                           
             if (ground.IsGrounded) return Vector3.zero;                                                                                                                             
-            return Vector3.down * (-UnityEngine.Physics.gravity.y) * (_physicsSettings.AirGravityStickForce - 1f);                                                                  
+            return Vector3.down * (-UnityEngine.Physics.gravity.y) * (_physicsSettings.SlingshotPhysics.AirGravityStickForce - 1f);                                                                  
         }         
 
         private Vector3 CalculateAirDrag(GroundInfo ground)
         {
             if (ground.IsGrounded || _currentVelocity.sqrMagnitude < 0.1f) return Vector3.zero;
-            return -_currentVelocity * _physicsSettings.AirDragForce;
+            return -_currentVelocity * _physicsSettings.SlingshotPhysics.AirDragForce;
 
         }
 
@@ -102,7 +102,7 @@ namespace LS.CharacterController.Physics.Core
         {
             _hasLaunched = true;
             Vector3 launchDirection = (forward + Vector3.down).normalized;
-            return launchDirection * _physicsSettings.MaxForce;
+            return launchDirection * _physicsSettings.SlingshotPhysics.MaxForce;
         }
         
         private Vector3 CalculateSpeedBoost()                                                                                                                                       

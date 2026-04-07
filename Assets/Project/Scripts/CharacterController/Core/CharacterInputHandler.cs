@@ -1,18 +1,19 @@
 using System;
+using LS.Core;
 using LS.Events;
 using UnityEngine;
 
 namespace LS.CharacterController.Core
 {
-    public class CharacterInputHandler : MonoBehaviour
+    public class CharacterInputHandler : MonoBehaviour, IInjectable
     {
-        [SerializeField] private FloatingJoystick _joystick;
-        
-        private CharacterMovementController _characterMovementController;
-        
-        private void Awake()
+        private IInputProvider _inputProvider;
+        private ICharacterMovementController _characterMovementController;
+
+        public void Inject(IGameContext context)
         {
-            _characterMovementController = GetComponent<CharacterMovementController>();
+            _inputProvider = context.InputProvider;
+            _characterMovementController = context.CharacterMovementController;
         }
 
         private void Update()
@@ -25,7 +26,7 @@ namespace LS.CharacterController.Core
         
         private void HandleSteeringInput()
         {
-            _characterMovementController.SetSteerInput(_joystick.Horizontal);
+            _characterMovementController.SetSteerInput(_inputProvider.HorizontalInput);
         }
 
     }

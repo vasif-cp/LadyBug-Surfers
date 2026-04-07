@@ -41,7 +41,7 @@ namespace LS.Items.Slingshot
             if (_state != State.Pulling)
                 return _restPosition;
 
-            float maxPullDistance = _physicsSettings.MaxPullDistance;
+            float maxPullDistance = _physicsSettings.SlingshotPhysics.MaxPullDistance;
             Vector3 rawOffset = inputWorldPosition - _restPosition;
  
             Vector3 backward = -sledForward.normalized;
@@ -61,14 +61,13 @@ namespace LS.Items.Slingshot
  
             _state = State.Launched;
 
-            float pullExponent = _physicsSettings.LaunchPullExponent;
+            float pullExponent = _physicsSettings.SlingshotPhysics.LaunchPullExponent;
             float curvedPull = Mathf.Pow(_pullAmount, pullExponent);
 
-            float minLaunchForce = _physicsSettings.MinForce;
-            float maxLaunchForce = _physicsSettings.MaxForce;
+            float minLaunchForce = _physicsSettings.SlingshotPhysics.MinForce;
+            float maxLaunchForce = _physicsSettings.SlingshotPhysics.MaxForce;
             float launchPower = Mathf.Lerp(minLaunchForce, maxLaunchForce, curvedPull) * launchPowerMultiplier;
             
-            Debug.LogError("Launching with power: " + launchPower);
             _pullAmount = 0f;
             _pullOffset = Vector3.zero;
  

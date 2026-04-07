@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3ce4495f7f3547a7be43417d6e0b42b, type: 3}
+  m_Name: SlingshotPhysicsSettings
+  m_EditorClassIdentifier: Assembly-CSharp::LS.CharacterController.Physics.Data.SlingshotPhysicsSettings
+  MaxPullDistance: 10
+  LaunchPullExponent: 2
+  MinForce: 5
+  MaxForce: 30
+  MaxSpeed: 40
+  SlopeGravityMultiplier: 1
+  GroundStickForce: 8
+  AirGravityStickForce: 2.5
+  AirDragForce: 1
+  HighSpeedSteerDamping: 0.05
+  VisualAlignSpeed: 12
+  MaxBankAngle: 20
+  ForwardInterpolationSpeed: 10
+  BackwardInterpolationSpeed: 5

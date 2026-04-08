@@ -52,7 +52,10 @@ namespace LS.Gameplay
 
         private void Update()
         {
-            _gameplaySession?.OnUpdate();
+            if (_gameplaySession == null || !_gameplaySession.IsActive) return;
+            
+            _gameplaySession.OnUpdate();
+            GameEvents.OnCharacterDistanceUpdated?.Invoke(_gameplaySession.TravelledDistance);
             CheckSessionEnd();
         }
 
@@ -76,7 +79,6 @@ namespace LS.Gameplay
 
         private void CheckSessionEnd()
         {
-            if (_gameplaySession == null || !_gameplaySession.IsActive) return;
             if (!_characterMovementController.HasLaunched) return;
             float sqrSpeed = _characterMovementController.Velocity.sqrMagnitude;
 

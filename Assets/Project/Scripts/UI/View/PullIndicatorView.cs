@@ -35,7 +35,7 @@ namespace LS.UI.View
  
             if (_fillBar != null)
             {
-                _fillBar.fillAmount = normalizedValue * 10;
+                _fillBar.fillAmount = normalizedValue;
             }
         }
     }

@@ -35,6 +35,10 @@ namespace LS.Events
         public static Action<Vector3> OnLaunchRequested;
         
         
+        /* Character Movement */
+        public static Action<float> OnCharacterDistanceUpdated;
+        
+        
         /* Meta Upgrades */
         public static Action<UpgradeModifiers> OnUpgradeModifiersApplied;
         public static Action<UpgradeType> OnUpgradePurchased;
@@ -63,6 +67,7 @@ namespace LS.Events
             OnCoinsCollected = null;
             OnCoinsBalanceUpdated = null;
             OnObstacleHit = null;
+            OnCharacterDistanceUpdated = null;
 
         }
     }

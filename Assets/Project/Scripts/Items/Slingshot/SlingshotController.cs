@@ -78,6 +78,8 @@ namespace LS.Items.Slingshot
         private void HandleInput()
         {
             float pullInput = Mathf.Clamp01(-_inputProvider.VerticalInput); 
+            float rawVerticalInput = _inputProvider.VerticalInput;
+
                                                                                                                                                                               
             if (!_engine.IsPulling)             
             {
@@ -90,7 +92,7 @@ namespace LS.Items.Slingshot
             {                                   
                 UpdatePull(pullInput);
             }                                                                                                                                                                       
-            else
+            else if (Mathf.Approximately(rawVerticalInput, 0.0f))             
             {                                                                                                                                                                       
                 ReleasePull();
             }

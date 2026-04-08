@@ -7,10 +7,7 @@ using UnityEngine;
 namespace LS.Camera
 {
     public class CameraTransitionController : MonoBehaviour
-    {
-        [Header("Scene Dependencies")]
-        [SerializeField] private CinemachineCamera _cinemachineCamera;
-                                                                                                                                                                              
+    {                                                                                                                                             
         [Header("Camera State Settings")]
         [SerializeField] private Vector3 _menuTargetOffset;                                                                                                                 
         [SerializeField] private float _menuCameraDistance;
@@ -25,7 +22,7 @@ namespace LS.Camera
 
         private void Awake()
         {
-            _positionComposer = _cinemachineCamera.GetComponent<CinemachinePositionComposer>();
+            _positionComposer = GetComponent<CinemachinePositionComposer>();
 
             _positionComposer.TargetOffset = _menuTargetOffset;
             _positionComposer.CameraDistance = _menuCameraDistance;

@@ -10,31 +10,21 @@ namespace LS.UI.View
     {
         [SerializeField] private TMP_Text _distanceText;
 
-        private GameplaySession _session;
-
         private void Awake()
         {
             GameEvents.OnPullEnded += Show;
-            GameEvents.OnSessionStarted += OnSessionStarted;
-            GameEvents.OnPullUpdated += OnPullUpdated;                                                                                                                     
+            GameEvents.OnCharacterDistanceUpdated += OnCharacterDistanceUpdated;                                                                                                                     
         }
 
         private void OnDestroy()
         {
             GameEvents.OnPullEnded -= Show;
-            GameEvents.OnSessionStarted -= OnSessionStarted;
-            GameEvents.OnPullUpdated -= OnPullUpdated;                                                                                                                     
+            GameEvents.OnCharacterDistanceUpdated -= OnCharacterDistanceUpdated;                                                                                                                     
         }
 
-        private void OnPullUpdated(float value)
+        private void OnCharacterDistanceUpdated(float distance)
         {
-            if (_session == null || !_session.IsActive) return;
-            _distanceText.SetText("{0}m", (int)_session.TravelledDistance);
-        }
-
-        private void OnSessionStarted(GameplaySession session)
-        {
-            _session = session;
+            _distanceText.SetText($"{distance:F0}m");
         }
     }
 }

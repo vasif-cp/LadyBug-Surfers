@@ -27,7 +27,7 @@ namespace LS.UI.View
 
         private void OnGameplaySessionEnd(GameplaySession gameplaySession)
         {
-            _collectedCoinsText.SetText("{0} <sprite index=0>", gameplaySession.EarnedCoins);
+            _collectedCoinsText.SetText($"{gameplaySession.EarnedCoins}<space=1.5em><sprite index=0>");
             _newRecordText.gameObject.SetActive(gameplaySession.IsBestScore);
             _newRecordText.text = _newRecordText.text.Replace("{0}", $"{gameplaySession.TravelledDistance:F0}m");
             Show();

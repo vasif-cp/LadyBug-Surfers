@@ -9,7 +9,6 @@ using UnityEngine;
 namespace LS.CharacterController.Core
 {
     [RequireComponent(typeof(Rigidbody))]
-    [RequireComponent(typeof(GroundDetector))]
     public class CharacterMovementController : MonoBehaviour, IInjectable, ICharacterMovementController, IContextService
     {
         [Header("Visual Dependencies")]
@@ -40,7 +39,7 @@ namespace LS.CharacterController.Core
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
-            _groundDetector = GetComponent<GroundDetector>();
+            _groundDetector = GetComponentInChildren<GroundDetector>();
 
             GameEvents.OnUpgradeModifiersApplied += ApplyUpgradeModifiers;
             GameEvents.OnLaunchRequested += RequestLaunchWithImpulse;
@@ -70,7 +69,8 @@ namespace LS.CharacterController.Core
  
             _rigidbody.AddForce(forces.TotalForce, ForceMode.Acceleration);
             
-            if (ground.IsGrounded && _visualModelTransform != null && _rigidbody.linearVelocity.sqrMagnitude > 0.1f)
+            if (ground.IsGrounded && _visualModelTransform != null && 
+                _rigidbody.linearVelocity.sqrMagnitude > _physicsSettings.CharacterPhysics.StopSteeringThreshold)
             {
                 Vector3 forward = Vector3.ProjectOnPlane(_rigidbody.linearVelocity, ground.SurfaceNormal).normalized;
                 Quaternion slopeRotation = Quaternion.LookRotation(forward, ground.SurfaceNormal);

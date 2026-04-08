@@ -20,6 +20,7 @@ namespace LS.CharacterController.Core
         private PhysicsSettings _physicsSettings;
         
         private float _steerInput;
+        private Vector3 _lastVelocityDirection;
         private bool _launchRequested;
 
         public Transform CharacterTransform => transform;
@@ -69,6 +70,30 @@ namespace LS.CharacterController.Core
  
             _rigidbody.AddForce(forces.TotalForce, ForceMode.Acceleration);
             
+            ClampRotation();
+            HandleVisualRotation(ground);
+        }
+        
+        public void SetSteerInput(float horizontal)
+        {
+            _steerInput = Mathf.Clamp(horizontal, -1f, 1f);
+        }
+
+        private void ClampRotation()
+        {
+            Vector3 currentVelocity = _rigidbody.linearVelocity;
+            if (_lastVelocityDirection.sqrMagnitude > 0.01f && currentVelocity.sqrMagnitude > 0.01f)
+            {
+                float maxTurnRate = _physicsSettings.CharacterPhysics.MaxTurnRatePerSecond * Time.fixedDeltaTime;
+                Vector3 clampedDirection = Vector3.RotateTowards(_lastVelocityDirection, currentVelocity.normalized,
+                    maxTurnRate * Mathf.Deg2Rad, 0f);
+                _rigidbody.linearVelocity = clampedDirection * currentVelocity.magnitude;
+            }
+            _lastVelocityDirection = _rigidbody.linearVelocity.normalized;
+        }
+
+        private void HandleVisualRotation(GroundInfo ground)
+        {
             if (ground.IsGrounded && _visualModelTransform != null && 
                 _rigidbody.linearVelocity.sqrMagnitude > _physicsSettings.CharacterPhysics.StopSteeringThreshold)
             {
@@ -79,16 +104,9 @@ namespace LS.CharacterController.Core
                 Quaternion bankRotation = Quaternion.AngleAxis(bankAngle, forward);
 
                 Quaternion targetRotation = bankRotation * slopeRotation;
-                _visualModelTransform.rotation = Quaternion.Slerp(
-                    _visualModelTransform.rotation, targetRotation,
+                _visualModelTransform.rotation = Quaternion.Slerp(_visualModelTransform.rotation, targetRotation,
                     Time.fixedDeltaTime * _physicsSettings.CharacterPhysics.VisualAlignSpeed);
             }
-
-        }
-        
-        public void SetSteerInput(float horizontal)
-        {
-            _steerInput = Mathf.Clamp(horizontal, -1f, 1f);
         }
         
         private void HandleLaunch()
@@ -106,6 +124,7 @@ namespace LS.CharacterController.Core
     
             _coreSledPhysics.MarkLaunched(); 
             _rigidbody.AddForce(impulse, ForceMode.VelocityChange);
+            _lastVelocityDirection = impulse.normalized;
         }
         
         public void ApplyUpgradeModifiers(UpgradeModifiers modifiers)                                                                                                            

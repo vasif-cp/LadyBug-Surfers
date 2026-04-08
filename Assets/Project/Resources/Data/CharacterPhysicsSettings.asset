@@ -23,6 +23,7 @@ MonoBehaviour:
   GroundStickForce: 8
   AirGravityStickForce: 5
   AirDragForce: 0.2
+  MaxTurnRatePerSecond: 25
   HighSpeedSteerDamping: 0.05
   VisualAlignSpeed: 6
   MaxBankAngle: 5

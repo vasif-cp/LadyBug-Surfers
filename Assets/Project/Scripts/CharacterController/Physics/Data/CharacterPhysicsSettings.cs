@@ -16,6 +16,7 @@ namespace LS.CharacterController.Physics.Data
         public float GroundStickForce = 8f;
         public float AirGravityStickForce = 2.5f;
         public float AirDragForce = 1f;
+        public float MaxTurnRatePerSecond = 20.0f;
         public float HighSpeedSteerDamping = 0.05f;
         public float VisualAlignSpeed = 12f;
         public float MaxBankAngle = 20f;

@@ -51,7 +51,7 @@ namespace LS.CharacterController.Physics.Core
 
             float steerForce = (_physicsSettings.CharacterPhysics.SteerForce + _steeringBonus) * steerInput;
 
-            float speedFactor     = Mathf.Clamp01(_currentSpeed / _physicsSettings.CharacterPhysics.SteerSpeedReference);
+            float speedFactor = Mathf.Clamp01(_currentSpeed / _physicsSettings.CharacterPhysics.SteerSpeedReference);
             float highSpeedDampen = 1f / (1f + _currentSpeed * _physicsSettings.CharacterPhysics.HighSpeedSteerDamping);
 
             return slopeRight * steerForce * speedFactor * highSpeedDampen;

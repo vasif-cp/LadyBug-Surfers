@@ -12,7 +12,10 @@ namespace LS.Items.Obstacles
         private void OnTriggerEnter(Collider other)
         {
             if (other.GetComponentInParent<ICharacterMovementController>() != null)
+            {
                 GameEvents.OnObstacleHit?.Invoke(Type);
+                gameObject.SetActive(Type != ObstacleType.SlowingDown);
+            }
         }
 
     }

@@ -15,6 +15,14 @@ MonoBehaviour:
   SteerForce: 10
   SteerSpeedReference: 5
   GroundCheckDistance: 2
-  ObstacleSlowFactor: 0.5
-  StopSpeedThreshold: 0.25
+  ObstacleSlowFactor: 0.75
+  StopSpeedThreshold: 0.01
+  StopSteeringThreshold: 1
   LaunchConfirmThreshold: 2
+  SlopeGravityMultiplier: 1
+  GroundStickForce: 8
+  AirGravityStickForce: 5
+  AirDragForce: 0.2
+  HighSpeedSteerDamping: 0.05
+  VisualAlignSpeed: 6
+  MaxBankAngle: 5

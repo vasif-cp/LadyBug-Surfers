@@ -18,8 +18,8 @@ MonoBehaviour:
   - TerrainLayer: {fileID: 8574412962073106934, guid: d5d811febd9f046c0965d0deee1152eb, type: 2}
     SurfaceType: 1
   DefaultSurfaceType: 0
-  SnowFrictionForce: 5
-  IceFrictionForce: 2.5
+  SnowFrictionForce: 0.3
+  IceFrictionForce: 0.1
   GroundLayerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64

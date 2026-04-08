@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 753a118b89e774cedb984cc7595561ae, type: 3}
   m_Name: CollectablePhysicsSettings
   m_EditorClassIdentifier: Assembly-CSharp::LS.CharacterController.Physics.Data.CollectablePhysicsSettings
-  CollectableRadius: 3
-  CollectableLayer:
+  CollectibleRadius: 1
+  CollectibleLayer:
     serializedVersion: 2
     m_Bits: 128

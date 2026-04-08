@@ -41,6 +41,7 @@ namespace LS.CharacterController.Physics.Core
         private Vector3 CalculateSteeringForce(GroundInfo ground, float steerInput)
         {
             if (!ground.IsGrounded || Mathf.Approximately(steerInput, 0f)) return Vector3.zero;
+            if (_currentSpeed < _physicsSettings.CharacterPhysics.StopSteeringThreshold) return Vector3.zero;  
 
             Vector3 forwardReference  = _currentVelocity.sqrMagnitude > 0.5f
                 ? _currentVelocity.normalized : Vector3.forward;
@@ -51,7 +52,7 @@ namespace LS.CharacterController.Physics.Core
             float steerForce = (_physicsSettings.CharacterPhysics.SteerForce + _steeringBonus) * steerInput;
 
             float speedFactor     = Mathf.Clamp01(_currentSpeed / _physicsSettings.CharacterPhysics.SteerSpeedReference);
-            float highSpeedDampen = 1f / (1f + _currentSpeed * _physicsSettings.SlingshotPhysics.HighSpeedSteerDamping);
+            float highSpeedDampen = 1f / (1f + _currentSpeed * _physicsSettings.CharacterPhysics.HighSpeedSteerDamping);
 
             return slopeRight * steerForce * speedFactor * highSpeedDampen;
 
@@ -72,25 +73,25 @@ namespace LS.CharacterController.Physics.Core
         {
             if (!ground.IsGrounded) return Vector3.zero;
             return Vector3.ProjectOnPlane(UnityEngine.Physics.gravity, ground.SurfaceNormal)
-                   * _physicsSettings.SlingshotPhysics.SlopeGravityMultiplier;
+                   * _physicsSettings.CharacterPhysics.SlopeGravityMultiplier;
         }
         
         private Vector3 CalculateGroundStickForce(GroundInfo ground)
         {
             if (!ground.IsGrounded) return Vector3.zero;
-            return -ground.SurfaceNormal * _physicsSettings.SlingshotPhysics.GroundStickForce;
+            return -ground.SurfaceNormal * _physicsSettings.CharacterPhysics.GroundStickForce;
         }
         
         private Vector3 CalculateAirGravity(GroundInfo ground)
         {                                                                                                                                                                           
             if (ground.IsGrounded) return Vector3.zero;                                                                                                                             
-            return Vector3.down * (-UnityEngine.Physics.gravity.y) * (_physicsSettings.SlingshotPhysics.AirGravityStickForce - 1f);                                                                  
+            return Vector3.down * (-UnityEngine.Physics.gravity.y) * (_physicsSettings.CharacterPhysics.AirGravityStickForce - 1f);                                                                  
         }         
 
         private Vector3 CalculateAirDrag(GroundInfo ground)
         {
             if (ground.IsGrounded || _currentVelocity.sqrMagnitude < 0.1f) return Vector3.zero;
-            return -_currentVelocity * _physicsSettings.SlingshotPhysics.AirDragForce;
+            return -_currentVelocity * _physicsSettings.CharacterPhysics.AirDragForce;
 
         }
 

@@ -41,10 +41,14 @@ namespace LS.CharacterController.Core
         {
             _rigidbody = GetComponent<Rigidbody>();
             _groundDetector = GetComponent<GroundDetector>();
-            _coreSledPhysics = new CoreSledPhysics(_physicsSettings);
 
             GameEvents.OnUpgradeModifiersApplied += ApplyUpgradeModifiers;
             GameEvents.OnLaunchRequested += RequestLaunchWithImpulse;
+        }
+
+        private void Start()
+        {
+            _coreSledPhysics = new CoreSledPhysics(_physicsSettings);
         }
 
         private void OnDestroy()
@@ -71,13 +75,13 @@ namespace LS.CharacterController.Core
                 Vector3 forward = Vector3.ProjectOnPlane(_rigidbody.linearVelocity, ground.SurfaceNormal).normalized;
                 Quaternion slopeRotation = Quaternion.LookRotation(forward, ground.SurfaceNormal);
 
-                float bankAngle = -_steerInput * _physicsSettings.SlingshotPhysics.MaxBankAngle;
+                float bankAngle = -_steerInput * _physicsSettings.CharacterPhysics.MaxBankAngle;
                 Quaternion bankRotation = Quaternion.AngleAxis(bankAngle, forward);
 
                 Quaternion targetRotation = bankRotation * slopeRotation;
                 _visualModelTransform.rotation = Quaternion.Slerp(
                     _visualModelTransform.rotation, targetRotation,
-                    Time.fixedDeltaTime * _physicsSettings.SlingshotPhysics.VisualAlignSpeed);
+                    Time.fixedDeltaTime * _physicsSettings.CharacterPhysics.VisualAlignSpeed);
             }
 
         }

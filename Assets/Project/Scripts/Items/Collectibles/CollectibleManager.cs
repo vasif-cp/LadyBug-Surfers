@@ -37,14 +37,15 @@ namespace LS.Items.Collectibles
             GameEvents.OnSessionEnded -= OnSessionEnded;
         }
 
-        private void HandleCollectible(int resourceID, int itemID, int value)
+        private void HandleCollectible(CollectibleCollectedEvent collectibleCollectedEvent)
         {
-            if (_saveSystem.IsCollectibleCollected(resourceID, itemID) || 
-                !_collectedSetOnSession.Add((resourceID, itemID))) return;     
+            if (_saveSystem.IsCollectibleCollected(collectibleCollectedEvent.ResourceID, collectibleCollectedEvent.ItemID) || 
+                !_collectedSetOnSession.Add((collectibleCollectedEvent.ResourceID, collectibleCollectedEvent.ItemID))) return;     
                                                                                                                                                                               
             for (int i = 0; i < _allCollectibles.Length; i++)
             {                                                                                                                                                               
-                if (_allCollectibles[i].ResourceID == resourceID && _allCollectibles[i].UniqueId == itemID)
+                if (_allCollectibles[i].ResourceID == collectibleCollectedEvent.ResourceID && 
+                    _allCollectibles[i].UniqueId == collectibleCollectedEvent.ItemID)
                 {                                                                                                                                                           
                     _allCollectibles[i].OnCollected();
                     break;                                                                                                                                                  

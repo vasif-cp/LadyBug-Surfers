@@ -36,13 +36,17 @@ namespace LS.Items.Slingshot
 
         private void Awake()
         {
-            _engine = new SlingshotEngine(_physicsSettings);
             _isActive = false;
 
             _bandLineRenderer = GetComponentInChildren<LineRenderer>();
 
             GameEvents.OnUpgradeModifiersApplied += ApplyUpgradeModifiers;
             GameEvents.OnCameraTransitionComplete += OnGameStartRequested;
+        }
+
+        private void Start()
+        {
+            _engine = new SlingshotEngine(_physicsSettings);
         }
 
         private void OnDestroy()
@@ -159,8 +163,7 @@ namespace LS.Items.Slingshot
         {
             if (_bandLineRenderer == null) return;
             
-            float _behindDistance = 2f;
-            Vector3 behindOffset = -_characterTransform.forward * _behindDistance;
+            Vector3 behindOffset = -_characterTransform.forward * _physicsSettings.SlingshotPhysics.BehindDistance;
             Vector3 middlePoint = _characterTransform.position + behindOffset;
 
             _bandLineRenderer.SetPosition(1, middlePoint);

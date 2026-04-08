@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using LS.CharacterController.Physics.Data;
 using LS.Core;
@@ -19,9 +20,13 @@ namespace LS.CharacterController.Physics.Core
         private void Awake()
         {
             _rayOrigin = transform;
+        }
+
+        private void Start()
+        {
             _surfaceDetector = new TerrainSurfaceDetector(_physicsSettings.SurfacePhysics);
         }
-        
+
         public GroundInfo DetectGround()
         {
             if (UnityEngine.Physics.Raycast(_rayOrigin.position, Vector3.down, out RaycastHit hit, _physicsSettings.CharacterPhysics.GroundCheckDistance, _physicsSettings.SurfacePhysics.GroundLayerMask))

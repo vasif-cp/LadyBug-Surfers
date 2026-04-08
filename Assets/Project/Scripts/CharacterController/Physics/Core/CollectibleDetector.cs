@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using LS.Core;
 using LS.Events;
 using LS.Items.Collectibles;
@@ -11,6 +12,8 @@ namespace LS.CharacterController.Physics
         private LayerMask _collectibleLayer;
         
         private readonly Collider[] _hitBuffer = new Collider[10];
+        private readonly HashSet<int> _detectedInstanceIds = new();                                                                                          
+
 
         public void Inject(IGameContext context)
         {
@@ -26,9 +29,10 @@ namespace LS.CharacterController.Physics
             
             for (int i = 0; i < count; i++)
             {
-                if (_hitBuffer[i].TryGetComponent(out BaseCollectible collectible))
+                if (_hitBuffer[i].TryGetComponent(out BaseCollectible collectible) &&
+                    _detectedInstanceIds.Add(collectible.GetInstanceID()))
                 {
-                    GameEvents.OnCollectibleCollected?.Invoke(collectible.ResourceID, collectible.UniqueId, collectible.Value);
+                    GameEvents.OnCollectibleCollected?.Invoke(new CollectibleCollectedEvent(collectible.ResourceID, collectible.UniqueId, collectible.Value));
                 }
             }
         }

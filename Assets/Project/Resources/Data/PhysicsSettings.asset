@@ -15,4 +15,4 @@ MonoBehaviour:
   _characterPhysics: {fileID: 11400000, guid: 3e34dd8b33dbf455e9425cbdb7356d2b, type: 2}
   _slingshotPhysics: {fileID: 11400000, guid: b60f89cc6a0fc4a57bcfe84c9d6a9476, type: 2}
   _surfacePhysics: {fileID: 11400000, guid: 0a21bc153caf94ca5a991e7427d62dfd, type: 2}
-  _collectablePhysics: {fileID: 11400000, guid: 87358b0a49ddb464fa9d72ed33162864, type: 2}
+  _collectiblePhysics: {fileID: 11400000, guid: 87358b0a49ddb464fa9d72ed33162864, type: 2}

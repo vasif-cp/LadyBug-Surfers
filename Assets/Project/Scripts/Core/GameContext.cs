@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using LS.CharacterController.Core;
 using LS.CharacterController.Physics.Data;
+using LS.Events;
 using LS.Meta;
 using LS.Save;
 using UnityEngine;
@@ -56,6 +57,11 @@ namespace LS.Core
                     injectable.Inject(this);  
                 }                                                                                                                                      
             }  
+        }
+
+        private void OnDestroy()
+        {
+            GameEvents.Clear();
         }
     }
 }

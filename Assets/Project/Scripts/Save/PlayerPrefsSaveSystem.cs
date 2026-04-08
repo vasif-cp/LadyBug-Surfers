@@ -44,7 +44,7 @@ namespace LS.Save
         #endregion
 
         #region Coins Resource
-        public int LoadCoins() => PlayerPrefs.GetInt(KeyCoins, 100);
+        public int LoadCoins() => PlayerPrefs.GetInt(KeyCoins, 0);
 
         public void AddCoins(int amount) => SaveCoins(LoadCoins() + amount);
         

@@ -1,3 +1,4 @@
+using System;
 using LS.Meta;
 using UnityEngine;
 
@@ -13,6 +14,6 @@ namespace LS.Save
         int LoadUpgradeLevel(UpgradeType type);            
         void SaveCollectible(int resourceId, int itemId);                                                                                                                       
         bool IsCollectibleCollected(int resourceId, int itemId);
-
+        bool TryClaimDailyReward(DateTime currentTime, out int rewardAmount);
     }
 }

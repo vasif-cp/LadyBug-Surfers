@@ -1,3 +1,4 @@
+using System;
 using LS.Meta;
 using UnityEngine;
 
@@ -9,6 +10,10 @@ namespace LS.Save
         private const string KeyCollectibles = "GameplayData:Collectibles";
         private const string KeyUpgrade = "Upgrade:Level";
         private const string KeyCoins = "Resource:Coins";
+        private const string KeyDailyRewardLastClaimDate = "Rewards:Daily:LastClaimDate";
+
+        private const int DailyRewardMaxCoins = 200;
+        private const int DailyRewardStepCoins = 50;
 
         public float BestDistance
         {
@@ -59,6 +64,45 @@ namespace LS.Save
 
         }
         
+        #endregion
+
+        #region Daily Rewards
+        public bool TryClaimDailyReward(DateTime currentTime, out int rewardAmount)
+        {
+            var currentDay = currentTime.Date;
+            var lastClaimDay = GetLastClaimDay();
+            rewardAmount = GetRewardForDay(currentDay, lastClaimDay);
+
+            if (rewardAmount <= 0)
+                return false;
+
+            AddCoins(rewardAmount);
+            PlayerPrefs.SetString(KeyDailyRewardLastClaimDate, currentDay.ToBinary().ToString());
+            PlayerPrefs.Save();
+            return true;
+        }
+
+        private static int GetRewardForDay(DateTime currentDay, DateTime lastClaimDay)
+        {
+            if (lastClaimDay == DateTime.MinValue)
+                return 0;
+
+            var daysSinceLastClaim = (currentDay - lastClaimDay).Days;
+            if (daysSinceLastClaim <= 0)
+                return 0;
+
+            if (daysSinceLastClaim > 1)
+                return DailyRewardStepCoins;
+
+            var streakIndex = Mathf.Clamp((currentDay - lastClaimDay).Days, 1, 4);
+            return Mathf.Clamp(streakIndex * DailyRewardStepCoins, DailyRewardStepCoins, DailyRewardMaxCoins);
+        }
+
+        private DateTime GetLastClaimDay()
+        {
+            var storedValue = PlayerPrefs.GetString(KeyDailyRewardLastClaimDate, string.Empty);
+            return string.IsNullOrEmpty(storedValue) ? DateTime.MinValue : DateTime.FromBinary(Convert.ToInt64(storedValue));
+        }
         #endregion
     }
 }

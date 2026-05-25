@@ -21,6 +21,14 @@ namespace LS.Meta
             GameEvents.OnSessionEnded += OnSessionEnded;
         }
 
+        private void Start()
+        {
+            if (_saveSystem.TryClaimDailyReward(DateTime.UtcNow, out var rewardAmount) && rewardAmount > 0)
+            {
+                GameEvents.OnCoinsBalanceUpdated?.Invoke(_saveSystem.LoadCoins());
+            }
+        }
+
         private void OnDestroy()
         {
             GameEvents.OnSessionEnded -= OnSessionEnded;
